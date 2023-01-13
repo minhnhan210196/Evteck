@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/image/prefix1">
+        <file>MPL_U_Logo-removebg-preview.png</file>
+        <file>config-removebg-preview.png</file>
+        <file>Occitanie.png</file>
+        <file>CNRS.png</file>
+        <file>CNRS_30pixel.png</file>
+        <file>icon-removebg-preview.png</file>
+        <file>Inserm.png</file>
+        <file>image/settings.png</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file>image/home.png</file>
+        <file>image/settings.png</file>
+        <file>image/info.png</file>
+        <file>image/jammy-jellyfish-wallpaper-840x473.jpg</file>
+        <file>image/play.png</file>
+        <file>image/stop-button.png</file>
+        <file>image/stop.png</file>
+    </qresource>
+</RCC>
