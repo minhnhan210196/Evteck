@@ -32,5 +32,4 @@ DISTFILES += \
     ../../Desktop/EVTeck/MONTPELIER_BiaMedical-master/1.Software/Picture/MPL_U_Logo_30pixel.png
 
 RESOURCES += \
-    ../../Desktop/EVTeck/Modern_GUI_PyDracula_PySide6_or_PyQt6-master/resources.qrc \
     image.qrc
