@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>913</width>
-    <height>642</height>
+    <width>941</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -488,7 +488,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:1, stop:1 rgba(255, 94, 94, 255));</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -496,136 +496,162 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>100</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>200</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Times New Roman</family>
-                    <pointsize>12</pointsize>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">image: url(:/image/prefix1/MPL_U_Logo-removebg-preview.png);</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_9">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>100</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>200</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Times New Roman</family>
-                    <pointsize>12</pointsize>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>MagBioMed
- System</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QPushButton" name="home_button">
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">image: url(:/image/image/home.png);
+             <widget class="QPushButton" name="home_button">
+              <property name="geometry">
+               <rect>
+                <x>-120</x>
+                <y>100</y>
+                <width>331</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>500</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">image: url(:/image/image/home.png);
 </string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="setting_button">
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">image: url(:/image/prefix1/image/settings.png);</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="info_button">
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">image: url(:/image/image/info.png);</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>221</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+              </property>
+              <property name="text">
+               <string>                             Home</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="setting_button">
+              <property name="geometry">
+               <rect>
+                <x>-140</x>
+                <y>140</y>
+                <width>371</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>500</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">image: url(:/image/prefix1/image/settings.png);</string>
+              </property>
+              <property name="text">
+               <string>                           Infor</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="info_button">
+              <property name="geometry">
+               <rect>
+                <x>-130</x>
+                <y>180</y>
+                <width>351</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>500</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">image: url(:/image/image/info.png);</string>
+              </property>
+              <property name="text">
+               <string>                                Settings</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget" native="true">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>201</width>
+                <height>101</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));</string>
+              </property>
+              <widget class="QLabel" name="label_10">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>81</width>
+                 <height>100</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Times New Roman</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">image: url(:/image/prefix1/MPL_U_Logo-removebg-preview.png);
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_9">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>0</y>
+                 <width>101</width>
+                 <height>100</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Times New Roman</family>
+                 <pointsize>12</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:1 rgba(203, 203, 203, 255));
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));</string>
+               </property>
+               <property name="text">
+                <string>MagBioMed
+ System</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </widget>
             </widget>
            </item>
            <item>
@@ -856,30 +882,66 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QPushButton" name="pushButton_2">
+                    <property name="text">
+                     <string>Disconnect</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboBox">
+                    <item>
+                     <property name="text">
+                      <string>  COM 10</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="connect_button">
                     <property name="text">
-                     <string>Connect</string>
+                     <string> Zero</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <disabledoff>C:/Users/KAITO/Downloads/768px-Eo_circle_red_number-0.svg.png</disabledoff>
+                     </iconset>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="clear_button">
                     <property name="text">
-                     <string>Clear</string>
+                     <string> Clear</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <disabledoff>C:/Users/KAITO/Downloads/tr.png</disabledoff>
+                     </iconset>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="save_button">
                     <property name="text">
-                     <string>Save</string>
+                     <string> Save</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <disabledoff>C:/Users/KAITO/Downloads/saves.png</disabledoff>
+                     </iconset>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="open_button">
                     <property name="text">
-                     <string>Open</string>
+                     <string> Open</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <disabledoff>C:/Users/KAITO/Downloads/op.png</disabledoff>
+                     </iconset>
                     </property>
                    </widget>
                   </item>
@@ -1371,6 +1433,11 @@
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <disabledoff>C:/Users/KAITO/Downloads/png-transparent-customer-service-computer-icons-granny-refresh-text-service-logo-thumbnail.png</disabledoff>
+                </iconset>
                </property>
               </widget>
              </item>
