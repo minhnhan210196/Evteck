@@ -4,25 +4,17 @@
 #include "QDateTimeAxis"
 #include "QValueAxis"
 #include "QFileDialog"
-#include "QTimer"
-
-QTimer *my_timer;
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->progressBar->setVisible(false);
     QPixmap p_icon(":/image/prefix1/icon-removebg-preview.png");
     QPixmap p_icon1(":/image/prefix1/config-removebg-preview.png");
     ui->icon->setPixmap(p_icon.scaled(ui->icon->width(),ui->icon->height(),Qt::KeepAspectRatio));
     ui->icon1->setPixmap(p_icon1.scaled(ui->icon1->width(),ui->icon1->height(),Qt::KeepAspectRatio));
     this->creat_chart();
-    my_timer = new QTimer(this);
-    my_timer->setInterval(1);
-    connect(my_timer,SIGNAL(timeout()),this,SLOT(chart_update()));
-    my_timer->stop();
-
 }
 
 MainWindow::~MainWindow()
@@ -51,74 +43,93 @@ void MainWindow::on_BloodPressureTab_currentChanged(int index)
 void MainWindow::on_open_button_clicked()
 {
     file_name = QFileDialog::getOpenFileName(this,
-                                             tr("Open File"), "C:/Users/MinhNhan/Desktop/EVTeck/MONTPELIER_BiaMedical-master/HeartSignal", tr("Files (*.txt *.csv)"));
+                                             tr("Open File"), "data_test/", tr("Files (*.txt *.csv)"));
 
     this->file.setFileName(file_name);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
+    QTextStream stream(&this->file);
+    int i = 0;
+    uint64_t size = file.size();
+    uint64_t is_load = 0;
+    ui->progressBar->setVisible(true);
+    for(uint16_t j = 0;j<8;j++){
+        this->data[j].clear();
+    }
+    while (!stream.atEnd()){
+        QString line = stream.readLine();
+        is_load += line.size();
+        QStringList values = line.split(QLatin1Char('\t'),Qt::SkipEmptyParts);
+        for(uint16_t j = 0;j<8;j++){
+            QPointF p((qreal) i, values.at(j).toDouble());
+            this->data[j].push_back(p);
+        }
+        i++;
+        double percent = (((double)is_load)/((double)size));
+        ui->progressBar->setValue((uint16_t)(percent*100));
+    }
+    ui->progressBar->setValue(100);
+    ui->progressBar->setVisible(false);
+    this->file.close();
+    qDebug()<<"end";
 }
 
 void MainWindow::creat_chart()
 {
+
     this->heart_beat_chart = new Chart();
     this->bool_chart = new Chart();
     this->pwv_chart = new Chart();
-
-    this->evteck_chart = new Evteck_Chart();
-    ui->heart_beat_view->addWidget(this->heart_beat_chart->get_chart_view());
-    ui->PWV_view->addWidget(this->pwv_chart->get_chart_view());
-    ui->blood_pressure_view->addWidget(this->bool_chart->get_chart_view());
-    ui->wave_form_view->addWidget(this->evteck_chart->get_chart_view());
+    this->evteck_chart = new Chart();
+    this->sensor_series[0] = new QLineSeries();
+    this->evteck_chart->addSeries(this->sensor_series[0]);
+    evteck_chart->setTitle("Evteck Chart");
+    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
+    evteck_chart->legend()->hide();
+    evteck_chart->createDefaultAxes();
+    this->heart_beat_chart_view = new ChartView(this->heart_beat_chart);
+    this->bool_chart_view = new ChartView(this->bool_chart);
+    this->pwv_chart_view = new ChartView(this->pwv_chart);
+    this->evteck_chart_view = new ChartView(this->evteck_chart);
+    ui->heart_beat_view->addWidget(this->heart_beat_chart_view);
+    ui->PWV_view->addWidget(this->pwv_chart_view);
+    ui->blood_pressure_view->addWidget(this->bool_chart_view);
+    ui->wave_form_view->addWidget(this->evteck_chart_view);
 }
 
 
 void MainWindow::on_start_draw_chart_clicked()
 {
-    my_timer->start();
-    qDebug()<<"timer start\n";
+    evteck_chart->removeAllSeries();
+    if(ui->s1_raw_checkbox->isChecked()){
+        this->sensor_series[0] = new QLineSeries();
+        *this->sensor_series[0]<<this->data[2];
+        this->evteck_chart->addSeries(this->sensor_series[0]);
+    }
+    if(ui->s1_filter_checkbox->isChecked()){
+        this->sensor_series[1] = new QLineSeries();
+        *this->sensor_series[1]<<this->data[6];
+        this->evteck_chart->addSeries(this->sensor_series[1]);
+    }
+    if(ui->bandstop_checkbox->isChecked()){
+
+    }
+    if(ui->v_to_h_checkbox->isChecked()){
+
+    }
+    evteck_chart->setTitle("Evteck Chart");
+    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
+    evteck_chart->createDefaultAxes();
+    this->evteck_chart->update();
 }
 
 void MainWindow::chart_update()
 {
-    static uint32_t idex = 0;
-    for(uint32_t i = 0;i<10;i++){
-    if(this->file.isOpen() && !this->file.atEnd()){
-        QString line = file.readLine();
-        if (line.startsWith("B") || line.startsWith("\t")){
 
-        }
-        else{
-            QStringList values = line.split(',', Qt::SkipEmptyParts);
-            bool to_number = false;
-            double num = values[4].toDouble(&to_number);
-            if(to_number == false){
-                goto endtimer;
-            }
-            this->evteck_chart->append(idex,num);
-            idex++;
-        }
-        for(uint32_t j = 0;j<100;j++){
-            if(!this->file.atEnd()){
-                file.readLine();
-            }
-            else{
-                break;
-            }
-        }
-    }
-    else{
-endtimer:
-        my_timer->stop();
-        qDebug()<<"timer stop\n";
-    }
-    }
-    this->evteck_chart->update();
-    //qDebug()<<"timer\n";
 }
 
 
 void MainWindow::on_stop_draw_char_clicked()
 {
-    my_timer->stop();
 }
 

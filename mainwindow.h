@@ -8,8 +8,8 @@
 #include <QRandomGenerator>
 #include <QFile>
 #include <QList>
-#include <evteck_chart.h>
 #include <chart.h>
+#include <chartview.h>
 #include "QTimer"
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +44,11 @@ private:
     Chart *heart_beat_chart;
     Chart *bool_chart;
     Chart *pwv_chart;
-    Evteck_Chart *evteck_chart;
+    Chart *evteck_chart;
+    ChartView *heart_beat_chart_view;
+    ChartView *bool_chart_view;
+    ChartView *pwv_chart_view;
+    ChartView *evteck_chart_view;
     int m_listCount;
     int m_valueMax;
     int m_valueCount;
@@ -57,5 +61,12 @@ private:
     QList<float> data_sensor[NUM_CHANEL];
     QList<float> fdata_sensor[NUM_CHANEL];
     QStringList sensor_list;
+    QList<QPointF> data[9];
+
+    // Line Series
+    QLineSeries *heart_beat_series;
+    QLineSeries *bool_series;
+    QLineSeries *pwv_series;
+    QLineSeries *sensor_series[4];
 };
 #endif // MAINWINDOW_H
