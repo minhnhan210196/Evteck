@@ -1,56 +1,46 @@
-#include "chart.h"
+// Copyright (C) 2016 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-Chart::Chart()
+#include "chart.h"
+#include <QtWidgets/QGesture>
+#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsView>
+
+Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
+    : QChart(QChart::ChartTypeCartesian, parent, wFlags)
 {
-    this->max_x = 10;
-    this->max_y = 10;
-    this->min_x = 0;
-    this->min_y = 0;
-    this->serial = new QLineSeries();
-    this->chart = new QChart();
-    this->chart->addSeries(this->serial);
-    this->chart->legend()->hide();
-    axisX = new QValueAxis;
-    axisX->setTickCount(10);
-    axisX->setRange(this->min_x,this->max_x);
-    axisX->setLabelFormat("%f");
-    this->chart->addAxis(axisX, Qt::AlignBottom);
-    this->serial->attachAxis(axisX);
-    axisY = new QValueAxis;
-    axisY->setLabelFormat("%f");
-    axisY->setRange(this->min_y,this->max_y);
-    this->chart->addAxis(axisY, Qt::AlignLeft);
-    this->serial->attachAxis(axisY);
-    this->chart->setAnimationDuration(10);
-    this->chart->setTheme(QChart::ChartThemeBlueCerulean);
-    this->view = new QChartView(this->chart);
-    this->view->setMinimumWidth(480);
-    this->view->setMinimumHeight(320);
+    // Seems that QGraphicsView (QChartView) does not grab gestures.
+    // They can only be grabbed here in the QGraphicsWidget (QChart).
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::PinchGesture);
 }
 
 Chart::~Chart()
 {
-    delete this->chart;
-    delete this->serial;
-    delete this->view;
+
 }
 
-void Chart::append(qreal x, qreal y)
+//![1]
+bool Chart::sceneEvent(QEvent *event)
 {
-    this->serial->append(x,y);
+    if (event->type() == QEvent::Gesture)
+        return gestureEvent(static_cast<QGestureEvent *>(event));
+    return QChart::event(event);
 }
 
-QChart *Chart::get_chart()
+bool Chart::gestureEvent(QGestureEvent *event)
 {
-    return this->chart;
-}
+    if (QGesture *gesture = event->gesture(Qt::PanGesture)) {
+        QPanGesture *pan = static_cast<QPanGesture *>(gesture);
+        QChart::scroll(-(pan->delta().x()), pan->delta().y());
+    }
 
-QChartView *Chart::get_chart_view()
-{
-    return this->view;
-}
+    if (QGesture *gesture = event->gesture(Qt::PinchGesture)) {
+        QPinchGesture *pinch = static_cast<QPinchGesture *>(gesture);
+        if (pinch->changeFlags() & QPinchGesture::ScaleFactorChanged)
+            QChart::zoom(pinch->scaleFactor());
+    }
 
-void Chart::update()
-{
-    this->chart->update();
+    return true;
 }
+//![1]

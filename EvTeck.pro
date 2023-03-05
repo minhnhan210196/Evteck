@@ -9,17 +9,26 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    butterworthfilter.cpp \
     chart.cpp \
-    evteck_chart.cpp \
+    chartview.cpp \
+    dialog.cpp \
+    hl_simplekalmanfilter.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    notchfilter.cpp
 
 HEADERS += \
+    butterworthfilter.h \
     chart.h \
-    evteck_chart.h \
-    mainwindow.h
+    chartview.h \
+    dialog.h \
+    hl_simplekalmanfilter.h \
+    mainwindow.h \
+    notchfilter.h
 
 FORMS += \
+    dialog.ui \
     mainwindow.ui
 
 
@@ -29,8 +38,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    ../../Desktop/EVTeck/MONTPELIER_BiaMedical-master/1.Software/Picture/MPL_U_Logo_30pixel.png
+    ../../Desktop/EVTeck/MONTPELIER_BiaMedical-master/1.Software/Picture/MPL_U_Logo_30pixel.png \
+    data_test/data_test_4.txt
 
 RESOURCES += \
-    ../../Desktop/EVTeck/Modern_GUI_PyDracula_PySide6_or_PyQt6-master/resources.qrc \
     image.qrc

@@ -1,32 +1,33 @@
+// Copyright (C) 2016 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
 #ifndef CHART_H
 #define CHART_H
 
-#include "QChart"
-#include "QChartView"
-#include "QLineSeries"
-#include <QApplication>
-#include <QList>
-#include <QValueAxis>
+#include <QtCharts/QChart>
 
-class Chart
+QT_BEGIN_NAMESPACE
+class QGestureEvent;
+QT_END_NAMESPACE
+
+QT_USE_NAMESPACE
+
+//![1]
+class Chart : public QChart
+//![1]
 {
-private:
-    double max_x;
-    double max_y;
-    double min_x;
-    double min_y;
-    QChart *chart;
-    QChartView *view;
-    QLineSeries *serial;
-    QValueAxis *axisX;
-    QValueAxis *axisY;
 public:
-    Chart();
+    explicit Chart(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = {});
     ~Chart();
-    void append(qreal x,qreal y);
-    QChart *get_chart();
-    QChartView *get_chart_view();
-    void update();
+
+protected:
+    bool sceneEvent(QEvent *event);
+
+private:
+    bool gestureEvent(QGestureEvent *event);
+
+private:
+
 };
 
 #endif // CHART_H
