@@ -298,10 +298,8 @@ QTabBar::tab:selected {
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
 	image: url(:/image/image/home.png);
-  display: inline-block;
   padding: 5px 25px;
   font-size: 18px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -331,11 +329,8 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
 	image: url(:/image/image/Setting1 (2).png);
-  display: inline-block;
-
   padding: 5px 25px;
   font-size: 18px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -365,10 +360,8 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
 	image: url(:/image/image/info1.png);
-  display: inline-block;
   padding: 5px 25px;
   font-size: 18px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -667,9 +660,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
 	image: url(:/image/image/connect.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -690,9 +681,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
 	image: url(:/image/image/clear.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -713,9 +702,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
 	image: url(:/image/image/save.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -735,10 +722,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                    <widget class="QPushButton" name="open_button">
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
-	image: url(:/image/image/folder.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -751,6 +735,10 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     </property>
                     <property name="text">
                      <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="image.qrc">
+                      <normaloff>:/image/image/folder.png</normaloff>:/image/image/folder.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -1182,9 +1170,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
-  display: inline-block;
   padding: 5px 5px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1226,9 +1212,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
-  display: inline-block;
   padding: 5px 5px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1270,9 +1254,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
-  display: inline-block;
   padding: 5px 5px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1397,10 +1379,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton{
-	image: url(:/image/image/save.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1413,6 +1392,10 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </property>
               <property name="text">
                <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="image.qrc">
+                <normaloff>:/image/image/save.png</normaloff>:/image/image/save.png</iconset>
               </property>
              </widget>
             </item>
@@ -1507,10 +1490,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton{
-	image: url(:/image/image/save.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1523,6 +1503,10 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </property>
               <property name="text">
                <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="image.qrc">
+                <normaloff>:/image/image/save.png</normaloff>:/image/image/save.png</iconset>
               </property>
              </widget>
             </item>
@@ -1785,10 +1769,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton{
-	image: url(:/image/image/save.png);
-  display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -1801,6 +1782,10 @@ QPushButton:hover {background-color: #3e8e41}</string>
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="image.qrc">
+              <normaloff>:/image/image/save.png</normaloff>:/image/image/save.png</iconset>
             </property>
            </widget>
           </item>

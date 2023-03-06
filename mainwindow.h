@@ -38,6 +38,8 @@ private slots:
 
     void on_stop_draw_char_clicked();
 
+    void on_clear_button_clicked();
+
 private:
 
     void creat_chart();

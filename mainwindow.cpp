@@ -157,3 +157,14 @@ void MainWindow::on_stop_draw_char_clicked()
 {
 }
 
+
+void MainWindow::on_clear_button_clicked()
+{
+    evteck_chart->removeAllSeries();
+    this->sensor_series[0] = new QLineSeries();
+    evteck_chart->setTitle("Evteck Chart");
+    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
+    evteck_chart->createDefaultAxes();
+    this->evteck_chart->update();
+}
+
