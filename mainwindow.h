@@ -5,6 +5,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
+#include <QtCharts/QSplineSeries>
 #include <QRandomGenerator>
 #include <QFile>
 #include <QList>

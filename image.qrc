@@ -8,14 +8,23 @@
         <file>icon-removebg-preview.png</file>
         <file>Inserm.png</file>
         <file>image/settings.png</file>
+        <file>image/Setting1.png</file>
     </qresource>
     <qresource prefix="/image">
-        <file>image/home.png</file>
         <file>image/settings.png</file>
         <file>image/info.png</file>
         <file>image/jammy-jellyfish-wallpaper-840x473.jpg</file>
         <file>image/play.png</file>
         <file>image/stop-button.png</file>
         <file>image/stop.png</file>
+        <file>image/info1.png</file>
+        <file>image/Setting1 (2).png</file>
+        <file>image/home.png</file>
+        <file>image/connect.png</file>
+        <file>image/clear.png</file>
+        <file>image/folder.png</file>
+        <file>image/save.png</file>
+        <file>image/background_1.png</file>
+        <file>image/background_2.png</file>
     </qresource>
 </RCC>

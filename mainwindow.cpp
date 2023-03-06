@@ -78,8 +78,31 @@ void MainWindow::creat_chart()
 {
 
     this->heart_beat_chart = new Chart();
+    this->heart_beat_series = new QLineSeries();
+    this->heart_beat_chart->addSeries(this->heart_beat_series);
+    heart_beat_chart->setTitle("Heart beat Chart");
+    heart_beat_chart->setAnimationOptions(QChart::SeriesAnimations);
+    heart_beat_chart->legend()->hide();
+    heart_beat_chart->createDefaultAxes();
+    /*Creat boold chart*/
     this->bool_chart = new Chart();
+    this->bool_series = new QLineSeries();
+    this->bool_chart->addSeries(this->bool_series);
+    bool_chart->setTitle("Boold Chart");
+    bool_chart->setAnimationOptions(QChart::SeriesAnimations);
+    bool_chart->legend()->hide();
+    bool_chart->createDefaultAxes();
+    /*End Creat boold chart*/
+    /*Creat pwv chart*/
     this->pwv_chart = new Chart();
+    this->pwv_series = new QLineSeries();
+    this->pwv_chart->addSeries(this->pwv_series);
+    pwv_chart->setTitle("PWV Chart");
+    pwv_chart->setAnimationOptions(QChart::SeriesAnimations);
+    pwv_chart->legend()->hide();
+    pwv_chart->createDefaultAxes();
+    /*End creat pwv chart*/
+    /*Creat evteck chart*/
     this->evteck_chart = new Chart();
     this->sensor_series[0] = new QLineSeries();
     this->evteck_chart->addSeries(this->sensor_series[0]);
@@ -87,6 +110,7 @@ void MainWindow::creat_chart()
     evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
     evteck_chart->legend()->hide();
     evteck_chart->createDefaultAxes();
+    /*End creat evteck chart*/
     this->heart_beat_chart_view = new ChartView(this->heart_beat_chart);
     this->bool_chart_view = new ChartView(this->bool_chart);
     this->pwv_chart_view = new ChartView(this->pwv_chart);
