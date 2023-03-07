@@ -9,6 +9,7 @@
         <file>Inserm.png</file>
         <file>image/settings.png</file>
         <file>image/Setting1.png</file>
+        <file>image/play_icon.png</file>
     </qresource>
     <qresource prefix="/image">
         <file>image/settings.png</file>
@@ -26,5 +27,8 @@
         <file>image/save.png</file>
         <file>image/background_1.png</file>
         <file>image/background_2.png</file>
+        <file>image/pause_icon.png</file>
+        <file>image/play_icon.png</file>
+        <file>image/Stop_icon.png</file>
     </qresource>
 </RCC>

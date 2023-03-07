@@ -165,6 +165,7 @@ background-color: rgb(207, 78, 80);</string>
 } 
 
 QTabBar::tab {
+  border : 1px;
   background: #4CAF50; 
   padding: 10px;
   font: 12pt &quot;Times New Roman&quot;;
@@ -269,8 +270,8 @@ QTabBar::tab:selected {
                   <property name="font">
                    <font>
                     <family>Times New Roman</family>
-                    <pointsize>12</pointsize>
-                    <bold>false</bold>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -289,16 +290,20 @@ QTabBar::tab:selected {
               </item>
               <item>
                <widget class="QPushButton" name="home_button">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>200</width>
-                  <height>16777215</height>
+                  <height>30</height>
                  </size>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
-	image: url(:/image/image/home.png);
-  padding: 5px 25px;
   font-size: 18px;
   text-align: center;
   text-decoration: none;
@@ -314,22 +319,33 @@ QPushButton:hover {background-color: #3e8e41}</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset theme="help-browser"/>
+                 <iconset resource="image.qrc">
+                  <normaloff>:/image/image/home.png</normaloff>:/image/image/home.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="setting_button">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>200</width>
-                  <height>16777215</height>
+                  <height>30</height>
                  </size>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
-	image: url(:/image/image/Setting1 (2).png);
-  padding: 5px 25px;
   font-size: 18px;
   text-align: center;
   text-decoration: none;
@@ -345,22 +361,33 @@ QPushButton:hover {background-color: #3e8e41}</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset theme="application-exit"/>
+                 <iconset resource="image.qrc">
+                  <normaloff>:/image/image/Setting1 (2).png</normaloff>:/image/image/Setting1 (2).png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="info_button">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>200</width>
-                  <height>16777215</height>
+                  <height>30</height>
                  </size>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
-	image: url(:/image/image/info1.png);
-  padding: 5px 25px;
   font-size: 18px;
   text-align: center;
   text-decoration: none;
@@ -374,6 +401,16 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="image.qrc">
+                  <normaloff>:/image/image/info1.png</normaloff>:/image/image/info1.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -821,26 +858,17 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_6">
-               <property name="minimumSize">
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
                 <size>
-                 <width>50</width>
-                 <height>0</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
+              </spacer>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -891,26 +919,17 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </layout>
              </item>
              <item>
-              <widget class="QFrame" name="frame_7">
-               <property name="minimumSize">
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
                 <size>
-                 <width>50</width>
-                 <height>0</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
+              </spacer>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -958,29 +977,20 @@ QPushButton:hover {background-color: #3e8e41}</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
-             </item>
-             <item>
-              <widget class="QFrame" name="frame_8">
-               <property name="minimumSize">
-                <size>
-                 <width>50</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1028,57 +1038,20 @@ QPushButton:hover {background-color: #3e8e41}</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
-             </item>
-             <item>
-              <widget class="QFrame" name="frame_9">
-               <property name="minimumSize">
-                <size>
-                 <width>50</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <widget class="QFrame" name="frame_10">
-                <property name="geometry">
-                 <rect>
-                  <x>40</x>
-                  <y>30</y>
-                  <width>50</width>
-                  <height>41</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>50</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>50</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-               </widget>
-              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_18">
@@ -1129,26 +1102,17 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </layout>
              </item>
              <item>
-              <widget class="QFrame" name="frame_11">
-               <property name="minimumSize">
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
                 <size>
-                 <width>50</width>
-                 <height>0</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
+              </spacer>
              </item>
             </layout>
            </item>
@@ -1170,6 +1134,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
+	image: url(:/image/image/play_icon.png);
   padding: 5px 5px;
   text-align: center;
   text-decoration: none;
@@ -1185,8 +1150,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="image.qrc">
-                 <normaloff>:/image/image/play.png</normaloff>:/image/image/play.png</iconset>
+                <iconset theme="audio-card"/>
                </property>
                <property name="iconSize">
                 <size>
@@ -1254,6 +1218,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
+	image: url(:/image/image/Stop_icon.png);
   padding: 5px 5px;
   text-align: center;
   text-decoration: none;
@@ -1269,8 +1234,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="image.qrc">
-                 <normaloff>:/image/image/stop-button.png</normaloff>:/image/image/stop-button.png</iconset>
+                <iconset theme="appointment-soon"/>
                </property>
                <property name="iconSize">
                 <size>
