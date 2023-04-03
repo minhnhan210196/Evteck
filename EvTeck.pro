@@ -1,5 +1,5 @@
 QT       += core gui
-QT += charts
+QT += charts network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -16,7 +16,8 @@ SOURCES += \
     hl_simplekalmanfilter.cpp \
     main.cpp \
     mainwindow.cpp \
-    notchfilter.cpp
+    notchfilter.cpp \
+    setting.cpp
 
 HEADERS += \
     butterworthfilter.h \
@@ -25,11 +26,13 @@ HEADERS += \
     dialog.h \
     hl_simplekalmanfilter.h \
     mainwindow.h \
-    notchfilter.h
+    notchfilter.h \
+    setting.h
 
 FORMS += \
     dialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    setting.ui
 
 
 # Default rules for deployment.

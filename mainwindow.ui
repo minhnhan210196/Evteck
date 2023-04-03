@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1023</width>
-    <height>688</height>
+    <width>1107</width>
+    <height>847</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,6 +33,12 @@ background-color: rgb(207, 78, 80);</string>
       <property name="minimumSize">
        <size>
         <width>0</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
         <height>80</height>
        </size>
       </property>
@@ -181,6 +187,9 @@ QTabBar::tab:selected {
   color: #4CAF50;
 }</string>
       </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::West</enum>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -191,6 +200,12 @@ QTabBar::tab:selected {
        <layout class="QVBoxLayout" name="verticalLayout_16">
         <item>
          <widget class="QFrame" name="frame_4">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>535</height>
+           </size>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -199,7 +214,7 @@ QTabBar::tab:selected {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
-            <widget class="QFrame" name="frame_2">
+            <widget class="QFrame" name="setting_view">
              <property name="minimumSize">
               <size>
                <width>200</width>
@@ -228,7 +243,7 @@ QTabBar::tab:selected {
                  <widget class="QLabel" name="label_10">
                   <property name="minimumSize">
                    <size>
-                    <width>0</width>
+                    <width>60</width>
                     <height>100</height>
                    </size>
                   </property>
@@ -431,10 +446,630 @@ QPushButton:hover {background-color: #3e8e41}</string>
             </widget>
            </item>
            <item>
-            <layout class="QGridLayout" name="wave_form_view"/>
+            <widget class="QFrame" name="setting_display">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>569</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_22">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_18">
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(207, 78, 80);</string>
+                  </property>
+                  <property name="text">
+                   <string>TCP/IP</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <item>
+                   <widget class="QLabel" name="label_13">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Device's IP :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="ip_host">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="text">
+                     <string>192.168.1.161</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                   <widget class="QLabel" name="label_14">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Device's Port :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="port_host">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>1234</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_23">
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(207, 78, 80);</string>
+                  </property>
+                  <property name="text">
+                   <string>Bandpass filter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <item>
+                   <widget class="QLabel" name="label_18">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Bottom frequency :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="bandpass_freq_bottom">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>48</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_12">
+                  <item>
+                   <widget class="QLabel" name="label_19">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Top frequency :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="bandpass_freq_top">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>52</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <item>
+                   <widget class="QLabel" name="label_20">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Order :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="bandpass_oder">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>30</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_7">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="styleSheet">
+                 <string notr="true">font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(207, 78, 80);</string>
+                </property>
+                <property name="text">
+                 <string>Bandstop filter</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_14">
+                <item>
+                 <widget class="QLabel" name="label_22">
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(207, 78, 80);</string>
+                  </property>
+                  <property name="text">
+                   <string>Bandwidth :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="bandstop_width">
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>4</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_20">
+                  <item>
+                   <widget class="QLabel" name="label_23">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>Frequency :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_19">
+                   <item>
+                    <widget class="QCheckBox" name="bandstop_checkbox_1">
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(207, 78, 80);</string>
+                     </property>
+                     <property name="text">
+                      <string>50 Hz</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="bandstop_checkbox_2">
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(207, 78, 80);</string>
+                     </property>
+                     <property name="text">
+                      <string>100 Hz</string>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="bandstop_checkbox_3">
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(207, 78, 80);</string>
+                     </property>
+                     <property name="text">
+                      <string>150 Hz</string>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="bandstop_checkbox_4">
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(207, 78, 80);</string>
+                     </property>
+                     <property name="text">
+                      <string>200 Hz</string>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_8">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_21">
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(207, 78, 80);</string>
+                  </property>
+                  <property name="text">
+                   <string>Kalman filter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_24">
+                  <item>
+                   <widget class="QLabel" name="label_27">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>q</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="kalman_q">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>0.7</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_25">
+                  <item>
+                   <widget class="QLabel" name="label_28">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(207, 78, 80);</string>
+                    </property>
+                    <property name="text">
+                     <string>r</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="kalman_r">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>1E-05</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_10">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <item>
+                 <widget class="QLabel" name="label_29">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(207, 78, 80);</string>
+                  </property>
+                  <property name="text">
+                   <string>Gain</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="gain">
+                  <item>
+                   <property name="text">
+                    <string>2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>10</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>50</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>100</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_9">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <spacer name="horizontalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="config_open">
+                  <property name="minimumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton{
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+}
+QPushButton:hover {background-color: #3e8e41}</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="image.qrc">
+                    <normaloff>:/image/image/folder.png</normaloff>:/image/image/folder.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>26</width>
+                    <height>26</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="config_save">
+                  <property name="minimumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton{
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+}
+QPushButton:hover {background-color: #3e8e41}</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="image.qrc">
+                    <normaloff>:/image/image/save.png</normaloff>:/image/image/save.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_3">
+            <widget class="QFrame" name="frame_2">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_25">
+              <item>
+               <layout class="QGridLayout" name="wave_form_view"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="tool_view">
              <property name="maximumSize">
               <size>
                <width>120</width>
@@ -472,7 +1107,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                          <string notr="true">color: rgb(207, 78, 80);</string>
                         </property>
                         <property name="text">
-                         <string>S1</string>
+                         <string>S</string>
                         </property>
                        </widget>
                       </item>
@@ -499,121 +1134,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                            <string/>
                           </property>
                           <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_12">
-                      <item>
-                       <widget class="QLabel" name="label_12">
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(207, 78, 80);</string>
-                        </property>
-                        <property name="text">
-                         <string>S2</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_8">
-                        <item>
-                         <widget class="QCheckBox" name="s2_raw_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="s2_filter_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_13">
-                      <item>
-                       <widget class="QLabel" name="label_13">
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(207, 78, 80);</string>
-                        </property>
-                        <property name="text">
-                         <string>S3</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_9">
-                        <item>
-                         <widget class="QCheckBox" name="s3_raw_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="s3_filter_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_14">
-                      <item>
-                       <widget class="QLabel" name="label_14">
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(207, 78, 80);</string>
-                        </property>
-                        <property name="text">
-                         <string>S4</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_10">
-                        <item>
-                         <widget class="QCheckBox" name="s4_raw_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="s4_filter_checkbox">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
+                           <bool>false</bool>
                           </property>
                          </widget>
                         </item>
@@ -636,7 +1157,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                      <string>Bandpass</string>
                     </property>
                     <property name="checked">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -649,7 +1170,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                      <string>Bandstop</string>
                     </property>
                     <property name="checked">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -662,7 +1183,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                      <string>Kalman</string>
                     </property>
                     <property name="checked">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -675,7 +1196,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                      <string>V to H</string>
                     </property>
                     <property name="checked">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -688,15 +1209,26 @@ QPushButton:hover {background-color: #3e8e41}</string>
                      <string>Realtime</string>
                     </property>
                     <property name="checked">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="connect_button">
+                    <property name="minimumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
-	image: url(:/image/image/connect.png);
   padding: 5px 10px;
   text-align: center;
   text-decoration: none;
@@ -711,10 +1243,32 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     <property name="text">
                      <string/>
                     </property>
+                    <property name="icon">
+                     <iconset resource="image.qrc">
+                      <normaloff>:/image/image/disconnect.png</normaloff>:/image/image/disconnect.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="clear_button">
+                    <property name="minimumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
 	image: url(:/image/image/clear.png);
@@ -736,6 +1290,18 @@ QPushButton:hover {background-color: #3e8e41}</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="save_button">
+                    <property name="minimumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
 	image: url(:/image/image/save.png);
@@ -757,6 +1323,18 @@ QPushButton:hover {background-color: #3e8e41}</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="open_button">
+                    <property name="minimumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>96</width>
+                      <height>30</height>
+                     </size>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QPushButton{
   padding: 5px 10px;
@@ -776,6 +1354,12 @@ QPushButton:hover {background-color: #3e8e41}</string>
                     <property name="icon">
                      <iconset resource="image.qrc">
                       <normaloff>:/image/image/folder.png</normaloff>:/image/image/folder.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>32</width>
+                      <height>32</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
@@ -829,6 +1413,62 @@ QPushButton:hover {background-color: #3e8e41}</string>
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_6">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_28">
+              <item>
+               <widget class="QLabel" name="scroll_value">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(207, 78, 80);</string>
+                </property>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="horizontalSlider">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_19">
@@ -895,7 +1535,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_17">
+                <widget class="QLabel" name="duration">
                  <property name="minimumSize">
                   <size>
                    <width>45</width>
@@ -934,7 +1574,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_16">
                <item>
-                <widget class="QLabel" name="label_18">
+                <widget class="QLabel" name="min_lable">
                  <property name="minimumSize">
                   <size>
                    <width>31</width>
@@ -956,7 +1596,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_19">
+                <widget class="QLabel" name="min_value">
                  <property name="minimumSize">
                   <size>
                    <width>30</width>
@@ -995,7 +1635,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_17">
                <item>
-                <widget class="QLabel" name="label_21">
+                <widget class="QLabel" name="max_lable">
                  <property name="minimumSize">
                   <size>
                    <width>31</width>
@@ -1017,7 +1657,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_20">
+                <widget class="QLabel" name="max_value">
                  <property name="minimumSize">
                   <size>
                    <width>30</width>
@@ -1056,7 +1696,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_18">
                <item>
-                <widget class="QLabel" name="label_22">
+                <widget class="QLabel" name="sample_value">
                  <property name="minimumSize">
                   <size>
                    <width>20</width>
@@ -1078,7 +1718,7 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_23">
+                <widget class="QLabel" name="sample_lable">
                  <property name="minimumSize">
                   <size>
                    <width>49</width>
@@ -1150,7 +1790,8 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset theme="audio-card"/>
+                <iconset theme="audio-card">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1234,7 +1875,8 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset theme="appointment-soon"/>
+                <iconset theme="appointment-soon">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>

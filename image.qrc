@@ -30,5 +30,9 @@
         <file>image/pause_icon.png</file>
         <file>image/play_icon.png</file>
         <file>image/Stop_icon.png</file>
+        <file>image/disconnect.png</file>
+    </qresource>
+    <qresource prefix="/file">
+        <file>File_config/config.json</file>
     </qresource>
 </RCC>

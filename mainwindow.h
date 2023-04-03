@@ -12,6 +12,9 @@
 #include <chart.h>
 #include <chartview.h>
 #include "QTimer"
+#include "setting.h"
+#include "QTcpSocket"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +32,10 @@ public:
 
 public slots:
     void chart_update();
+    void connected();
+    void disconnected();
+    void bytesWritten(qint64 bytes);
+    void readyRead();
 private slots:
     void on_BloodPressureTab_currentChanged(int index);
 
@@ -40,8 +47,41 @@ private slots:
 
     void on_clear_button_clicked();
 
-private:
 
+    void on_s1_raw_checkbox_stateChanged(int arg1);
+
+    void on_s1_filter_checkbox_stateChanged(int arg1);
+
+    void on_bandpass_checkbox_stateChanged(int arg1);
+
+    void on_bandstop_checkbox_stateChanged(int arg1);
+
+    void on_kalman_checkbox_stateChanged(int arg1);
+
+    void on_v_to_h_checkbox_stateChanged(int arg1);
+
+    void on_realtime_checkbox_stateChanged(int arg1);
+
+    void on_info_button_clicked();
+
+    void on_setting_button_clicked();
+
+    void on_home_button_clicked();
+
+    void on_save_button_clicked();
+
+    void on_auto_range_checkbox_clicked(bool checked);
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_connect_button_clicked();
+
+    void on_config_save_clicked();
+
+    void on_config_open_clicked();
+
+private:
+    Setting setting_ui;
     void creat_chart();
     Ui::MainWindow *ui;
     Chart *heart_beat_chart;
@@ -57,6 +97,7 @@ private:
     int m_valueCount;
     QString file_name;
     QFile file;
+    QFile file_setting;
     QTextStream stream_in;
     QTimer *timer;
     QList<QString> data_read_file;
@@ -71,5 +112,11 @@ private:
     QLineSeries *bool_series;
     QLineSeries *pwv_series;
     QLineSeries *sensor_series[4];
+    bool is_setting_display;
+
+
+    // network connection
+
+    QTcpSocket *p_network;
 };
 #endif // MAINWINDOW_H
