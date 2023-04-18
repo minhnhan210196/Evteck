@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+
+    this->save_data = new Save_Data("data.txt");
+
     ui->setupUi(this);
     ui->progressBar->setVisible(false);
     QPixmap p_icon(":/image/prefix1/icon-removebg-preview.png");
@@ -258,9 +262,14 @@ void MainWindow::bytesWritten(qint64 bytes)
 void MainWindow::readyRead()
 {
     qDebug() << "reading...";
-
+    QByteArray data_ready = this->p_network->readAll();
     // read the data from the socket
-    qDebug() << this->p_network->readAll();
+    qDebug() << data_ready;
+    QDateTime now = QDateTime::currentDateTime();
+    this->save_data->write(now.toString("hh:mm:ss.zzz").toUtf8());
+    this->save_data->write(":");
+    this->save_data->write(data_ready);
+    this->save_data->save();
 }
 
 

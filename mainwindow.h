@@ -14,6 +14,8 @@
 #include "QTimer"
 #include "setting.h"
 #include "QTcpSocket"
+#include "save_data.h"
+#include "QTime"
 
 
 QT_BEGIN_NAMESPACE
@@ -113,8 +115,8 @@ private:
     QLineSeries *pwv_series;
     QLineSeries *sensor_series[4];
     bool is_setting_display;
-
-
+    Save_Data *save_data;
+    QTime time;
     // network connection
 
     QTcpSocket *p_network;

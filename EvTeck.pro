@@ -17,6 +17,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     notchfilter.cpp \
+    save_data.cpp \
     setting.cpp
 
 HEADERS += \
@@ -27,6 +28,7 @@ HEADERS += \
     hl_simplekalmanfilter.h \
     mainwindow.h \
     notchfilter.h \
+    save_data.h \
     setting.h
 
 FORMS += \
