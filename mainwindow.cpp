@@ -313,7 +313,12 @@ void MainWindow::on_s1_filter_checkbox_stateChanged(int arg1)
 
 void MainWindow::on_bandpass_checkbox_stateChanged(int arg1)
 {
+    if(arg1){
 
+    }
+    else{
+
+    }
 }
 
 
@@ -354,7 +359,12 @@ void MainWindow::on_v_to_h_checkbox_stateChanged(int arg1)
 
 void MainWindow::on_realtime_checkbox_stateChanged(int arg1)
 {
+    if(arg1){
 
+    }
+    else{
+
+    }
 }
 
 
@@ -409,6 +419,7 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     this->ui->scroll_value->setText(QString::number(value));
+    this->evteck_chart->axisX()->setRange(0,value*20000);
 }
 
 
