@@ -429,11 +429,45 @@ void MainWindow::on_connect_button_clicked()
 
 void MainWindow::on_config_save_clicked()
 {
-
+    QJsonObject json_obj;
+    json_obj["ip"] = ui->ip_host->text();
+    json_obj["port"] = ui->port_host->text().toInt();
+    json_obj["bot freq"] = ui->bandpass_freq_bottom->text().toInt();
+    json_obj["top freq"] = ui->bandpass_freq_top->text().toInt();
+    json_obj["order"] = ui->bandpass_oder->text().toInt();
+    json_obj["band width"] = ui->bandstop_width->text().toInt();
+    QJsonArray freq_array = {50,100,150,200};
+    json_obj["freq"] = freq_array ;
+    json_obj["r"] = ui->kalman_r->text().toDouble();
+    json_obj["q"] = ui->kalman_q->text().toDouble();
+    json_obj["gain"] = ui->gain->currentText().toInt();
+    QJsonDocument jsonResponse;
+    jsonResponse.setObject(json_obj);
+    this->file_setting.open(QIODevice::ReadWrite | QIODevice::Text);
+    this->file_setting.write(jsonResponse.toJson(QJsonDocument::Indented));
+    this->file_setting.close();
+    qDebug()<<"Save config file";
+    if(this->is_setting_display == true){
+        this->evteck_chart_view->setVisible(true);
+        this->ui->tool_view->setVisible(true);
+        this->ui->setting_display->setVisible(false);
+        this->is_setting_display = false;
+    }
 }
 
 
 void MainWindow::on_config_open_clicked()
 {
+}
+
+
+void MainWindow::on_back_bt_clicked()
+{
+    if(this->is_setting_display == true){
+        this->evteck_chart_view->setVisible(true);
+        this->ui->tool_view->setVisible(true);
+        this->ui->setting_display->setVisible(false);
+        this->is_setting_display = false;
+    }
 }
 

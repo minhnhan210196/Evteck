@@ -82,6 +82,8 @@ private slots:
 
     void on_config_open_clicked();
 
+    void on_back_bt_clicked();
+
 private:
     Setting setting_ui;
     void creat_chart();
