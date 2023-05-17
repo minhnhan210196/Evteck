@@ -6,12 +6,16 @@
 #include "QFileDialog"
 #include "QPropertyAnimation"
 #include "QAbstractAxis"
-#include "stdint.h"
+
 #include "math.h"
 #include "stdlib.h"
 #include "QJsonDocument"
 #include "QJsonObject"
 #include "QJsonArray"
+
+
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -83,6 +87,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->is_setting_display = false;
     this->p_network = new QTcpSocket(this);
 
+    update_sensor_value = new QTimer(this);
+
+    connect(this->update_sensor_value,SIGNAL(timeout()),this,SLOT(update_senor_slot()));
+
+    this->update_sensor_value->setInterval(1);
+
+    this->update_sensor_value->start(1);
+
     connect(this->p_network, SIGNAL(connected()),this, SLOT(connected()));
     connect(this->p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(this->p_network, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
@@ -134,8 +146,9 @@ void MainWindow::on_open_button_clicked()
         is_load += line.size();
         QStringList values = line.split(QLatin1Char('\t'),Qt::SkipEmptyParts);
         for(uint16_t j = 0;j<8;j++){
-            QPointF p((qreal) i, values.at(j).toDouble());
-            this->data[j].push_back(p);
+            this->evteck_chart->add_PointY(values.at(j).toFloat());
+//            QPointF p((qreal) i, values.at(j).toDouble());
+//            this->data[j].push_back(p);
         }
         i++;
         double percent = (((double)is_load)/((double)size));
@@ -176,7 +189,7 @@ void MainWindow::creat_chart()
     pwv_chart->createDefaultAxes();
     /*End creat pwv chart*/
     /*Creat evteck chart*/
-    this->evteck_chart = new Chart();
+    this->evteck_chart = new QCustomChart();
     this->sensor_series[0] = new QLineSeries();
     this->evteck_chart->addSeries(this->sensor_series[0]);
     evteck_chart->setTitle("Evteck Chart");
@@ -184,10 +197,10 @@ void MainWindow::creat_chart()
     evteck_chart->legend()->hide();
     evteck_chart->createDefaultAxes();
     if(ui->v_to_h_checkbox->isChecked()){
-        this->evteck_chart->axisY()->setTitleText("uT");
+        this->evteck_chart->set_axisY_title("uT");
     }
     else{
-        this->evteck_chart->axisY()->setTitleText("mV");
+        this->evteck_chart->set_axisY_title("mV");
     }
 
     /*End creat evteck chart*/
@@ -199,40 +212,25 @@ void MainWindow::creat_chart()
     ui->PWV_view->addWidget(this->pwv_chart_view);
     ui->blood_pressure_view->addWidget(this->bool_chart_view);
     ui->wave_form_view->addWidget(this->evteck_chart_view);
+    this->num_sensor_val = 0;
 }
 
 
 void MainWindow::on_start_draw_chart_clicked()
 {
-    evteck_chart->removeAllSeries();
-    if(ui->s1_raw_checkbox->isChecked()){
-        this->sensor_series[0] = new QLineSeries();
-        *this->sensor_series[0]<<this->data[2];
-        this->evteck_chart->addSeries(this->sensor_series[0]);
-    }
-    if(ui->s1_filter_checkbox->isChecked()){
-        this->sensor_series[1] = new QLineSeries();
-        *this->sensor_series[1]<<this->data[6];
-        this->evteck_chart->addSeries(this->sensor_series[1]);
-
-    }
     if(ui->bandstop_checkbox->isChecked()){
 
     }
     if(ui->v_to_h_checkbox->isChecked()){
 
     }
-    evteck_chart->setTitle("Evteck Chart");
-    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
-
-    evteck_chart->createDefaultAxes();
     if(ui->v_to_h_checkbox->isChecked()){
-        this->evteck_chart->axisY()->setTitleText("uT");
+        this->evteck_chart->set_axisY_title("uT");
     }
     else{
-        this->evteck_chart->axisY()->setTitleText("mV");
+        this->evteck_chart->set_axisY_title("mV");
     }
-    this->evteck_chart->update();
+    //this->evteck_chart->update();
 }
 
 void MainWindow::chart_update()
@@ -259,19 +257,44 @@ void MainWindow::bytesWritten(qint64 bytes)
     qDebug() << bytes << " bytes written...";
 }
 
+typedef union ev_float_t ev_float;
+
+union ev_float_t{
+    uint8_t data[4];
+    float f;
+};
+
+#define MAX_NUM_SENSOR_VAL 10000
+
+
 void MainWindow::readyRead()
 {
     qDebug() << "reading...";
     QByteArray data_ready = this->p_network->readAll();
     // read the data from the socket
-    qDebug() << data_ready;
-    QDateTime now = QDateTime::currentDateTime();
-    this->save_data->write(now.toString("hh:mm:ss.zzz").toUtf8());
-    this->save_data->write(":");
-    this->save_data->write(data_ready);
-    this->save_data->save();
+    //qDebug() << data_ready;
+    uint8_t header = data_ready.at(0);
+    uint16_t len1 = data_ready.at(1);
+    uint16_t len2 = (uint8_t)data_ready.at(2);
+    if(header == ':'){
+        uint16_t length =  len1*256 + len2;
+        qDebug()<<"header - "<<header;
+        qDebug()<<"length - "<<length;
+        ev_float ev_f;
+        for(uint16_t i = 3;i<length ;i+=4){
+            ev_f.data[0] = data_ready.at(i+0);
+            ev_f.data[1] = data_ready.at(i+1);
+            ev_f.data[2] = data_ready.at(i+2);
+            ev_f.data[3] = data_ready.at(i+3);
+            this->evteck_chart->add_PointY(ev_f.f);
+        }
+    }
 }
 
+void MainWindow::update_senor_slot()
+{
+
+}
 
 void MainWindow::on_stop_draw_char_clicked()
 {
@@ -347,11 +370,11 @@ void MainWindow::on_kalman_checkbox_stateChanged(int arg1)
 void MainWindow::on_v_to_h_checkbox_stateChanged(int arg1)
 {
     if(arg1){
-        this->evteck_chart->axisY()->setTitleText("uT");
+        this->evteck_chart->set_axisY_title("uT");
         this->evteck_chart->update();
     }
     else{
-        this->evteck_chart->axisY()->setTitleText("mV");
+        this->evteck_chart->set_axisY_title("mV");
         this->evteck_chart->update();
     }
 }
@@ -407,6 +430,7 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
 {
     if(checked){
         ui->horizontalSlider->setEnabled(false);
+        //this->evteck_chart->axisX()->setRange(0,this->sensor_series[0]->count());
     }
     else{
         ui->horizontalSlider->setEnabled(true);
@@ -419,7 +443,7 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     this->ui->scroll_value->setText(QString::number(value));
-    this->evteck_chart->axisX()->setRange(0,value*20000);
+    this->evteck_chart->set_max_point(value*10000);
 }
 
 

@@ -18,7 +18,8 @@ SOURCES += \
     mainwindow.cpp \
     notchfilter.cpp \
     save_data.cpp \
-    setting.cpp
+    setting.cpp \
+    qcustomchart.cpp
 
 HEADERS += \
     butterworthfilter.h \
@@ -29,7 +30,8 @@ HEADERS += \
     mainwindow.h \
     notchfilter.h \
     save_data.h \
-    setting.h
+    setting.h \
+    qcustomchart.h
 
 FORMS += \
     dialog.ui \

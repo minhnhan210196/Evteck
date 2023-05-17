@@ -16,7 +16,8 @@
 #include "QTcpSocket"
 #include "save_data.h"
 #include "QTime"
-
+#include <QQueue>
+#include <qcustomchart.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,6 +39,8 @@ public slots:
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
+    void update_senor_slot();
+
 private slots:
     void on_BloodPressureTab_currentChanged(int index);
 
@@ -91,7 +94,7 @@ private:
     Chart *heart_beat_chart;
     Chart *bool_chart;
     Chart *pwv_chart;
-    Chart *evteck_chart;
+    QCustomChart *evteck_chart;
     ChartView *heart_beat_chart_view;
     ChartView *bool_chart_view;
     ChartView *pwv_chart_view;
@@ -108,9 +111,10 @@ private:
     QList<float> file_time;
     QList<float> data_sensor[NUM_CHANEL];
     QList<float> fdata_sensor[NUM_CHANEL];
+    uint32_t num_sensor_val;
     QStringList sensor_list;
     QList<QPointF> data[9];
-
+    QQueue<QList<float>> sensor0;
     // Line Series
     QLineSeries *heart_beat_series;
     QLineSeries *bool_series;
@@ -120,7 +124,7 @@ private:
     Save_Data *save_data;
     QTime time;
     // network connection
-
+    QTimer *update_sensor_value;
     QTcpSocket *p_network;
 };
 #endif // MAINWINDOW_H
