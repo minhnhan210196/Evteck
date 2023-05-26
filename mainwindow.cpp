@@ -95,6 +95,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->update_sensor_value->start(1);
 
+    this->gen_data = new QTimer(this);
+
+    connect(this->gen_data,SIGNAL(timeout()),this,SLOT(gen_data_sensor()));
+    this->gen_data->start(10);
+
+
     connect(this->p_network, SIGNAL(connected()),this, SLOT(connected()));
     connect(this->p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(this->p_network, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
@@ -190,24 +196,20 @@ void MainWindow::creat_chart()
     /*End creat pwv chart*/
     /*Creat evteck chart*/
     this->evteck_chart = new QCustomChart();
-    this->sensor_series[0] = new QLineSeries();
-    this->evteck_chart->addSeries(this->sensor_series[0]);
     evteck_chart->setTitle("Evteck Chart");
-    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
-    evteck_chart->legend()->hide();
-    evteck_chart->createDefaultAxes();
+
     if(ui->v_to_h_checkbox->isChecked()){
         this->evteck_chart->set_axisY_title("uT");
     }
     else{
         this->evteck_chart->set_axisY_title("mV");
     }
-
+    this->evteck_chart->set_max_point(10000);
     /*End creat evteck chart*/
     this->heart_beat_chart_view = new ChartView(this->heart_beat_chart);
     this->bool_chart_view = new ChartView(this->bool_chart);
     this->pwv_chart_view = new ChartView(this->pwv_chart);
-    this->evteck_chart_view = new ChartView(this->evteck_chart);
+    this->evteck_chart_view = new QChartView(this->evteck_chart);
     ui->heart_beat_view->addWidget(this->heart_beat_chart_view);
     ui->PWV_view->addWidget(this->pwv_chart_view);
     ui->blood_pressure_view->addWidget(this->bool_chart_view);
@@ -293,7 +295,21 @@ void MainWindow::readyRead()
 
 void MainWindow::update_senor_slot()
 {
+    if(this->data[0].count() > this->evteck_chart->get_max_points()){
+        this->evteck_chart->replace_series(this->data[0]);
+        this->data[0].clear();
+    }
 
+}
+
+void MainWindow::gen_data_sensor()
+{
+    static float x = 0;
+    for(uint16_t i = 0;i<this->evteck_chart->get_max_points();i++){
+        x++;
+        float y = sin(0.2*x*3.14 + 10) + 2*cos(0.3*x*3.14 +2) + 3*sin(10*x*3.14);
+        this->data[0].append(QPointF(x,y));
+    }
 }
 
 void MainWindow::on_stop_draw_char_clicked()
@@ -431,9 +447,11 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
     if(checked){
         ui->horizontalSlider->setEnabled(false);
         //this->evteck_chart->axisX()->setRange(0,this->sensor_series[0]->count());
+        this->evteck_chart->set_max_point(10000);
     }
     else{
         ui->horizontalSlider->setEnabled(true);
+        this->evteck_chart->set_max_point(this->ui->horizontalSlider->value()*1000);
     }
 }
 
@@ -443,7 +461,7 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     this->ui->scroll_value->setText(QString::number(value));
-    this->evteck_chart->set_max_point(value*10000);
+    this->evteck_chart->set_max_point(value*1000);
 }
 
 

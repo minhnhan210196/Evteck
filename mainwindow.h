@@ -40,7 +40,7 @@ public slots:
     void bytesWritten(qint64 bytes);
     void readyRead();
     void update_senor_slot();
-
+    void gen_data_sensor();
 private slots:
     void on_BloodPressureTab_currentChanged(int index);
 
@@ -98,7 +98,7 @@ private:
     ChartView *heart_beat_chart_view;
     ChartView *bool_chart_view;
     ChartView *pwv_chart_view;
-    ChartView *evteck_chart_view;
+    QChartView *evteck_chart_view;
     int m_listCount;
     int m_valueMax;
     int m_valueCount;
@@ -114,7 +114,7 @@ private:
     uint32_t num_sensor_val;
     QStringList sensor_list;
     QList<QPointF> data[9];
-    QQueue<QList<float>> sensor0;
+    QQueue<QPointF> sensor0;
     // Line Series
     QLineSeries *heart_beat_series;
     QLineSeries *bool_series;
@@ -125,6 +125,7 @@ private:
     QTime time;
     // network connection
     QTimer *update_sensor_value;
+    QTimer *gen_data;
     QTcpSocket *p_network;
 };
 #endif // MAINWINDOW_H

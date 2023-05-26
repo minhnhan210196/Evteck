@@ -15,11 +15,10 @@ QCustomChart::QCustomChart(QChart *parent)
     this->series = new QLineSeries();
     this->axisX = new QValueAxis();
     this->axisY = new QValueAxis();
-    this->axisX->setRange(this->min_x,this->max_y);
+    this->axisX->setRange(this->min_x,this->max_x);
     this->axisY->setRange(this->min_y,this->max_y);
 
     this->addSeries(this->series);
-
     this->addAxis(this->axisX,Qt::AlignBottom);
     this->addAxis(this->axisY,Qt::AlignLeft);
 
@@ -27,13 +26,6 @@ QCustomChart::QCustomChart(QChart *parent)
     this->series->attachAxis(this->axisY);
 
     this->legend()->setMarkerShape(QLegend::MarkerShapeCircle);
-
-    this->time_update = new QTimer();
-
-    connect(this->time_update,SIGNAL(timeout()),this,SLOT(update_series()));
-
-    this->time_update->start(10);
-
 }
 
 QCustomChart::~QCustomChart()
@@ -59,34 +51,29 @@ void QCustomChart::set_axisX_title(QString title)
 
 void QCustomChart::set_axisY_title(QString title)
 {
-this->axisY->setTitleText(title);
+    this->axisY->setTitleText(title);
 }
-void QCustomChart::update_series()
+
+void QCustomChart::replace_series(const QList<QPointF> &points)
 {
-
-    static uint32_t range = 0;
-
-    if(this->axisY_val.count() >= this->num_display_point){
-        range += this->num_display_point;
-        for(uint32_t i = 0;i<this->num_display_point;i++){
-            uint32_t x = range - this->num_display_point +i;
-            this->axisX_val.append(x);
-            QPointF point(x,this->axisY_val.at(i));
-            this->series_val.append(point);
-
-        }
-        this->min_x = *std::min_element(this->axisX_val.begin(),this->axisX_val.end());
-        this->max_x = *std::max_element(this->axisX_val.begin(),this->axisX_val.end());
-        this->min_y = *std::min_element(this->axisY_val.begin(),this->axisY_val.end());
-        this->max_y = *std::max_element(this->axisY_val.begin(),this->axisY_val.end());
-
-        this->axisX->setRange(this->min_x,this->max_x);
-        this->axisY->setRange(this->min_y,this->max_y);
-
-        this->series->replace(this->series_val);
-
-        this->axisX_val.clear();
-        this->axisY_val.clear();
-        this->series_val.clear();
+    QList<float> _x;
+    QList<float> _y;
+    for(uint64_t i = 0;i<points.count();i++){
+        _x.append(points.at(i).x());
+        _y.append(points.at(i).y());
     }
+
+    this->min_x = *std::min_element(_x.begin(),_x.end());
+    this->max_x = *std::max_element(_x.begin(),_x.end());
+    this->min_y = *std::min_element(_y.begin(),_y.end());
+    this->max_y = *std::max_element(_y.begin(),_y.end());
+    this->axisX->setRange(this->min_x,this->max_x);
+    this->axisY->setRange(this->min_y-1,this->max_y+1);
+    this->series->replace(points);
 }
+
+uint32_t QCustomChart::get_max_points()
+{
+    return this->num_display_point;
+}
+

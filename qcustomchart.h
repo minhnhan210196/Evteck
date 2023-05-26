@@ -19,11 +19,10 @@ public:
     void set_max_point(uint32_t max);
     void set_axisX_title(QString title);
     void set_axisY_title(QString title);
+    void replace_series(const QList<QPointF> &points);
+    uint32_t get_max_points();
 signals:
 public slots:
-
-    void update_series();
-
 private:
     QLineSeries *series;
     QValueAxis *axisX;
@@ -36,11 +35,6 @@ private:
     QList<float> axisX_val, axisY_val;
 
     QList<QPointF> series_val;
-
-    QTimer *time_update;
-
-
-
 };
 
 #endif // QCUSTOMCHART_H
