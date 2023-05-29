@@ -11,20 +11,34 @@ QCustomChart::QCustomChart(QChart *parent)
     this->min_x = 0;
     this->max_y = 1;
     this->min_y = 0;
-
+    this->data_raw_enable = true;
+    this->filter = new HL_SimpleKalmanFilter(1,1.0,1);
     this->series = new QLineSeries();
+    this->series_filter = new QLineSeries();
     this->axisX = new QValueAxis();
     this->axisY = new QValueAxis();
     this->axisX->setRange(this->min_x,this->max_x);
     this->axisY->setRange(this->min_y,this->max_y);
-
+    this->filter_enable = false;
     this->addSeries(this->series);
+    this->addSeries(this->series_filter);
+
+
     this->addAxis(this->axisX,Qt::AlignBottom);
     this->addAxis(this->axisY,Qt::AlignLeft);
 
     this->series->attachAxis(this->axisX);
     this->series->attachAxis(this->axisY);
+    this->series_filter->attachAxis(this->axisX);
+    this->series_filter->attachAxis(this->axisY);
+    this->series_filter->setColor(QColor("red"));
+    this->axisX->setTitleText("time");
+    this->axisY->setTitleText("value");
 
+    this->series->setName("data");
+    this->series_filter->setName("data filter");
+    this->series->setUseOpenGL(true);
+    this->series_filter->setUseOpenGL(true);
     this->legend()->setMarkerShape(QLegend::MarkerShapeCircle);
 }
 
@@ -33,9 +47,9 @@ QCustomChart::~QCustomChart()
 
 }
 
-void QCustomChart::add_PointY(float y)
+void QCustomChart::add_PointY(QPointF point)
 {
-    this->axisY_val.append(y);
+    this->series_val.append(point);
 }
 
 void QCustomChart::set_max_point(uint32_t max)
@@ -58,22 +72,63 @@ void QCustomChart::replace_series(const QList<QPointF> &points)
 {
     QList<float> _x;
     QList<float> _y;
-    for(uint64_t i = 0;i<points.count();i++){
+    QList<QPointF> *data_filter = new QList<QPointF>;
+    for(qsizetype i = 0;i<points.count();i++){
         _x.append(points.at(i).x());
         _y.append(points.at(i).y());
+        if(filter_enable){
+            data_filter->append(QPointF(points.at(i).x(),this->filter->update(points.at(i).y())));
+        }
     }
-
     this->min_x = *std::min_element(_x.begin(),_x.end());
     this->max_x = *std::max_element(_x.begin(),_x.end());
     this->min_y = *std::min_element(_y.begin(),_y.end());
     this->max_y = *std::max_element(_y.begin(),_y.end());
     this->axisX->setRange(this->min_x,this->max_x);
     this->axisY->setRange(this->min_y-1,this->max_y+1);
-    this->series->replace(points);
+
+    if(this->data_raw_enable == true){
+        this->series->replace(points);
+    }
+    if(filter_enable){
+        this->series_filter->replace(*data_filter);
+    }
+    data_filter->clear();
+    delete data_filter;
+}
+
+void QCustomChart::update_series()
+{
+    if(this->series_val.count() > this->num_display_point){
+        QList<float> _x;
+        QList<float> _y;
+        for(qsizetype i = 0;i<this->series_val.count();i++){
+            _x.append(this->series_val.at(i).x());
+            _y.append(this->series_val.at(i).y());
+        }
+        this->min_x = *std::min_element(_x.begin(),_x.end());
+        this->max_x = *std::max_element(_x.begin(),_x.end());
+        this->min_y = *std::min_element(_y.begin(),_y.end());
+        this->max_y = *std::max_element(_y.begin(),_y.end());
+        this->axisX->setRange(this->min_x,this->max_x);
+        this->axisY->setRange(this->min_y-1,this->max_y+1);
+        this->series->replace(this->series_val);
+        this->series->clear();
+    }
 }
 
 uint32_t QCustomChart::get_max_points()
 {
     return this->num_display_point;
+}
+
+void QCustomChart::set_filter_en(bool en)
+{
+    this->filter_enable = en;
+}
+
+void QCustomChart::set_data_raw_en(bool en)
+{
+    this->data_raw_enable = en;
 }
 

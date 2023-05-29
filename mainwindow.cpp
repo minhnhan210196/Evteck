@@ -13,15 +13,14 @@
 #include "QJsonObject"
 #include "QJsonArray"
 
-
-
-
+#define MAX_DISPLAY_CHART_POINTS 1000
+#define NUM_DIV_POINTS 1
+#define SET_DISPLAY_POINTS MAX_DISPLAY_CHART_POINTS/NUM_DIV_POINTS
+#define TIME_UPDATE_CHART_Ms 10
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
-
     this->save_data = new Save_Data("data.txt");
 
     ui->setupUi(this);
@@ -32,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->icon1->setPixmap(p_icon1.scaled(ui->icon1->width(),ui->icon1->height(),Qt::KeepAspectRatio));
     this->file_setting.setFileName("config.json");
     this->file_setting.open(QIODevice::ReadWrite | QIODevice::Text);
-
+    this->fps = 0;
     QByteArray json_raw = file_setting.readAll();
 
     this->file_setting.close();
@@ -90,16 +89,17 @@ MainWindow::MainWindow(QWidget *parent)
     update_sensor_value = new QTimer(this);
 
     connect(this->update_sensor_value,SIGNAL(timeout()),this,SLOT(update_senor_slot()));
+    this->update_sensor_value->start(TIME_UPDATE_CHART_Ms);
 
-    this->update_sensor_value->setInterval(1);
+//    this->gen_data = new QTimer(this);
 
-    this->update_sensor_value->start(1);
+//    connect(this->gen_data,SIGNAL(timeout()),this,SLOT(gen_data_sensor()));
+//    this->gen_data->start(100);
+//    this->fps_timer = new QTimer(this);
 
-    this->gen_data = new QTimer(this);
+//    connect(this->fps_timer,SIGNAL(timeout()),this,SLOT(fps_run_time()));
 
-    connect(this->gen_data,SIGNAL(timeout()),this,SLOT(gen_data_sensor()));
-    this->gen_data->start(10);
-
+//    this->fps_timer->start(1000);
 
     connect(this->p_network, SIGNAL(connected()),this, SLOT(connected()));
     connect(this->p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
@@ -152,9 +152,10 @@ void MainWindow::on_open_button_clicked()
         is_load += line.size();
         QStringList values = line.split(QLatin1Char('\t'),Qt::SkipEmptyParts);
         for(uint16_t j = 0;j<8;j++){
-            this->evteck_chart->add_PointY(values.at(j).toFloat());
+            //this->evteck_chart->add_PointY(values.at(j).toFloat());
 //            QPointF p((qreal) i, values.at(j).toDouble());
 //            this->data[j].push_back(p);
+            this->data[0].append(QPointF(i++,values.at(j).toFloat()));
         }
         i++;
         double percent = (((double)is_load)/((double)size));
@@ -204,7 +205,7 @@ void MainWindow::creat_chart()
     else{
         this->evteck_chart->set_axisY_title("mV");
     }
-    this->evteck_chart->set_max_point(10000);
+    this->evteck_chart->set_max_point(SET_DISPLAY_POINTS);
     /*End creat evteck chart*/
     this->heart_beat_chart_view = new ChartView(this->heart_beat_chart);
     this->bool_chart_view = new ChartView(this->bool_chart);
@@ -266,40 +267,62 @@ union ev_float_t{
     float f;
 };
 
-#define MAX_NUM_SENSOR_VAL 10000
+#define MAX_NUM_SENSOR_VAL 5000
 
+typedef union{
+    uint8_t u8_t[4];
+    float fl;
+}Float_Convert_t;
+
+typedef union{
+    uint8_t u8_t[2];
+    uint16_t u16_t;
+}Uint16_Convert_t;
 
 void MainWindow::readyRead()
 {
-    qDebug() << "reading...";
-    QByteArray data_ready = this->p_network->readAll();
+
+    //qDebug() << "reading...";
+    //QByteArray data_ready = this->p_network->readAll();
+//    this->read_buff.append(this->p_network->readAll());
+    QByteArray data_ready = this->p_network->readLine();
+
+    this->read_buff.enqueue(data_ready);
+
     // read the data from the socket
     //qDebug() << data_ready;
-    uint8_t header = data_ready.at(0);
-    uint16_t len1 = data_ready.at(1);
-    uint16_t len2 = (uint8_t)data_ready.at(2);
-    if(header == ':'){
-        uint16_t length =  len1*256 + len2;
-        qDebug()<<"header - "<<header;
-        qDebug()<<"length - "<<length;
-        ev_float ev_f;
-        for(uint16_t i = 3;i<length ;i+=4){
-            ev_f.data[0] = data_ready.at(i+0);
-            ev_f.data[1] = data_ready.at(i+1);
-            ev_f.data[2] = data_ready.at(i+2);
-            ev_f.data[3] = data_ready.at(i+3);
-            this->evteck_chart->add_PointY(ev_f.f);
-        }
-    }
+
 }
 
 void MainWindow::update_senor_slot()
 {
-    if(this->data[0].count() > this->evteck_chart->get_max_points()){
-        this->evteck_chart->replace_series(this->data[0]);
-        this->data[0].clear();
-    }
+    static uint64_t x = 0;
+    this->fps+= TIME_UPDATE_CHART_Ms;
+    while(this->read_buff.count()>0){
+        QByteArray data_ready = this->read_buff.dequeue();
+        uint8_t header = data_ready.at(0);
+        if(header == ':'){
+            QByteArrayList values = data_ready.split(',');
+            for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
+                float y = values.at(i).toFloat();
+                //qDebug()<<y;
+                //this->data[0].enqueue(QPointF(x,y));
+                this->draw_points.append(QPointF(x,y));
+                if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+                    this->evteck_chart->replace_series(this->draw_points);
+                    if(this->fps > 0 ){
+                        double sample_per_sec = (this->evteck_chart->get_max_points()*NUM_DIV_POINTS *1000) / this->fps;
 
+                        this->ui->sample_value->setText(QString::number(sample_per_sec));
+
+                        this->fps = 0;
+                    }
+                    this->draw_points.clear();
+                }
+                x+=NUM_DIV_POINTS;
+            }
+        }
+    }
 }
 
 void MainWindow::gen_data_sensor()
@@ -307,9 +330,14 @@ void MainWindow::gen_data_sensor()
     static float x = 0;
     for(uint16_t i = 0;i<this->evteck_chart->get_max_points();i++){
         x++;
-        float y = sin(0.2*x*3.14 + 10) + 2*cos(0.3*x*3.14 +2) + 3*sin(10*x*3.14);
+        float y = 10*sin(0.2*x*3.14 + 10) + QRandomGenerator::global()->bounded(-5,5);
         this->data[0].append(QPointF(x,y));
     }
+}
+
+void MainWindow::fps_run_time()
+{
+   // this->fps++;
 }
 
 void MainWindow::on_stop_draw_char_clicked()
@@ -331,10 +359,10 @@ void MainWindow::on_clear_button_clicked()
 void MainWindow::on_s1_raw_checkbox_stateChanged(int arg1)
 {
     if(arg1){
-
+        this->evteck_chart->set_data_raw_en(true);
     }
     else{
-
+        this->evteck_chart->set_data_raw_en(false);
     }
 }
 
@@ -342,10 +370,10 @@ void MainWindow::on_s1_raw_checkbox_stateChanged(int arg1)
 void MainWindow::on_s1_filter_checkbox_stateChanged(int arg1)
 {
     if(arg1){
-
+        this->evteck_chart->set_filter_en(true);
     }
     else{
-
+        this->evteck_chart->set_filter_en(false);
     }
 }
 
@@ -447,11 +475,11 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
     if(checked){
         ui->horizontalSlider->setEnabled(false);
         //this->evteck_chart->axisX()->setRange(0,this->sensor_series[0]->count());
-        this->evteck_chart->set_max_point(10000);
+        this->evteck_chart->set_max_point(SET_DISPLAY_POINTS);
     }
     else{
         ui->horizontalSlider->setEnabled(true);
-        this->evteck_chart->set_max_point(this->ui->horizontalSlider->value()*1000);
+        this->evteck_chart->set_max_point(this->ui->horizontalSlider->value()/NUM_DIV_POINTS);
     }
 }
 
@@ -461,7 +489,7 @@ void MainWindow::on_auto_range_checkbox_clicked(bool checked)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     this->ui->scroll_value->setText(QString::number(value));
-    this->evteck_chart->set_max_point(value*1000);
+    this->evteck_chart->set_max_point(value/NUM_DIV_POINTS);
 }
 
 

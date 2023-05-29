@@ -41,6 +41,7 @@ public slots:
     void readyRead();
     void update_senor_slot();
     void gen_data_sensor();
+    void fps_run_time();
 private slots:
     void on_BloodPressureTab_currentChanged(int index);
 
@@ -113,8 +114,10 @@ private:
     QList<float> fdata_sensor[NUM_CHANEL];
     uint32_t num_sensor_val;
     QStringList sensor_list;
-    QList<QPointF> data[9];
+    QQueue<QPointF> data[9];
     QQueue<QPointF> sensor0;
+    QQueue<QByteArray> read_buff;
+    QList<QPointF> draw_points;
     // Line Series
     QLineSeries *heart_beat_series;
     QLineSeries *bool_series;
@@ -126,6 +129,8 @@ private:
     // network connection
     QTimer *update_sensor_value;
     QTimer *gen_data;
+    QTimer *fps_timer;
+    uint32_t fps;
     QTcpSocket *p_network;
 };
 #endif // MAINWINDOW_H
