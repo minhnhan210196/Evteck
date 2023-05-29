@@ -24,6 +24,10 @@ public:
     uint32_t get_max_points();
     void set_filter_en(bool en);
     void set_data_raw_en(bool en);
+    float get_max_x();
+    float get_min_x();
+    float get_max_y();
+    float get_min_y();
 signals:
 public slots:
 private:

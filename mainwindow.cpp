@@ -13,10 +13,13 @@
 #include "QJsonObject"
 #include "QJsonArray"
 
-#define MAX_DISPLAY_CHART_POINTS 1000
-#define NUM_DIV_POINTS 1
-#define SET_DISPLAY_POINTS MAX_DISPLAY_CHART_POINTS/NUM_DIV_POINTS
-#define TIME_UPDATE_CHART_Ms 10
+#define MAX_DISPLAY_CHART_POINTS        10000
+#define NUM_DIV_POINTS                  1
+#define SET_DISPLAY_POINTS              MAX_DISPLAY_CHART_POINTS/NUM_DIV_POINTS
+#define TIME_UPDATE_CHART_mS            1
+#define SAMPLE_TIME_mS                  0.05
+QTimer *timer0;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -86,20 +89,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->is_setting_display = false;
     this->p_network = new QTcpSocket(this);
 
-    update_sensor_value = new QTimer(this);
+    timer0 = new QTimer(this);
 
-    connect(this->update_sensor_value,SIGNAL(timeout()),this,SLOT(update_senor_slot()));
-    this->update_sensor_value->start(TIME_UPDATE_CHART_Ms);
-
-//    this->gen_data = new QTimer(this);
-
-//    connect(this->gen_data,SIGNAL(timeout()),this,SLOT(gen_data_sensor()));
-//    this->gen_data->start(100);
-//    this->fps_timer = new QTimer(this);
-
-//    connect(this->fps_timer,SIGNAL(timeout()),this,SLOT(fps_run_time()));
-
-//    this->fps_timer->start(1000);
+    connect(timer0,SIGNAL(timeout()),this,SLOT(update_senor_slot()));
+    timer0->start(TIME_UPDATE_CHART_mS);
 
     connect(this->p_network, SIGNAL(connected()),this, SLOT(connected()));
     connect(this->p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
@@ -296,22 +289,21 @@ void MainWindow::readyRead()
 
 void MainWindow::update_senor_slot()
 {
-    static uint64_t x = 0;
-    this->fps+= TIME_UPDATE_CHART_Ms;
-    while(this->read_buff.count()>0){
-        QByteArray data_ready = this->read_buff.dequeue();
-        uint8_t header = data_ready.at(0);
+    static float x = 0;
+    this->fps+= TIME_UPDATE_CHART_mS;
+    if(this->read_buff.count()>0){
+        QByteArray *data_ready = new QByteArray();
+        *data_ready = this->read_buff.dequeue();
+        uint8_t header = data_ready->at(0);
         if(header == ':'){
-            QByteArrayList values = data_ready.split(',');
+            QByteArrayList values = data_ready->split(',');
             for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
                 float y = values.at(i).toFloat();
-                //qDebug()<<y;
-                //this->data[0].enqueue(QPointF(x,y));
                 this->draw_points.append(QPointF(x,y));
                 if(this->draw_points.count() > this->evteck_chart->get_max_points()){
                     this->evteck_chart->replace_series(this->draw_points);
                     if(this->fps > 0 ){
-                        double sample_per_sec = (this->evteck_chart->get_max_points()*NUM_DIV_POINTS *1000) / this->fps;
+                        double sample_per_sec = ((double)1000/SAMPLE_TIME_mS);
 
                         this->ui->sample_value->setText(QString::number(sample_per_sec));
 
@@ -319,10 +311,15 @@ void MainWindow::update_senor_slot()
                     }
                     this->draw_points.clear();
                 }
-                x+=NUM_DIV_POINTS;
+                x+= (NUM_DIV_POINTS*SAMPLE_TIME_mS);
             }
         }
+        delete data_ready;
     }
+
+    this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
+    this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
+
 }
 
 void MainWindow::gen_data_sensor()

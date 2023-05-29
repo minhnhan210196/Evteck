@@ -1511,6 +1511,9 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <property name="pageStep">
                  <number>100</number>
                 </property>
+                <property name="value">
+                 <number>10000</number>
+                </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -1648,13 +1651,13 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <widget class="QLabel" name="min_value">
                  <property name="minimumSize">
                   <size>
-                   <width>30</width>
+                   <width>50</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>30</width>
+                   <width>50</width>
                    <height>16777215</height>
                   </size>
                  </property>
@@ -1709,13 +1712,13 @@ QPushButton:hover {background-color: #3e8e41}</string>
                 <widget class="QLabel" name="max_value">
                  <property name="minimumSize">
                   <size>
-                   <width>30</width>
+                   <width>50</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>30</width>
+                   <width>50</width>
                    <height>16777215</height>
                   </size>
                  </property>
