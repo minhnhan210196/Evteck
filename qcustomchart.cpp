@@ -1,5 +1,8 @@
 #include "qcustomchart.h"
+#include <stdio.h>
+#include <stdint.h>
 
+using namespace std;
 
 #define MAX_DISPLAY_POINT 1000
 

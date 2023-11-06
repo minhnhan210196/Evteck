@@ -209,6 +209,9 @@ void MainWindow::creat_chart()
     ui->blood_pressure_view->addWidget(this->bool_chart_view);
     ui->wave_form_view->addWidget(this->evteck_chart_view);
     this->num_sensor_val = 0;
+    this->gen_data  = new QTimer();
+    connect(this->gen_data,SIGNAL(timeout()),this,SLOT(gen_data_sensor()));
+    this->gen_data->start(1);
 }
 
 
@@ -292,15 +295,16 @@ void MainWindow::update_senor_slot()
     static float x = 0;
     this->fps+= TIME_UPDATE_CHART_mS;
     if(this->read_buff.count()>0){
-        QByteArray *data_ready = new QByteArray();
-        *data_ready = this->read_buff.dequeue();
-        uint8_t header = data_ready->at(0);
+        this->s1_buff.clear();
+        this->s1_buff = this->read_buff.dequeue();
+        uint8_t header = this->s1_buff.at(0);
         if(header == ':'){
-            QByteArrayList values = data_ready->split(',');
+            s1_buff.remove(0,1);
+            QByteArrayList values = this->s1_buff.split(',');
             for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
                 float y = values.at(i).toFloat();
                 this->draw_points.append(QPointF(x,y));
-                if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+                if(this->draw_points.count() >= this->evteck_chart->get_max_points()){
                     this->evteck_chart->replace_series(this->draw_points);
                     if(this->fps > 0 ){
                         double sample_per_sec = ((double)1000/SAMPLE_TIME_mS);
@@ -314,8 +318,12 @@ void MainWindow::update_senor_slot()
                 x+= (NUM_DIV_POINTS*SAMPLE_TIME_mS);
             }
         }
-        delete data_ready;
     }
+//    if(this->data[0].count() > this->evteck_chart->get_max_points()){
+//        this->evteck_chart->replace_series(this->data[0]);
+//        this->data[0].clear();
+//    }
+
 
     this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
     this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));

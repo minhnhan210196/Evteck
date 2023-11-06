@@ -114,9 +114,10 @@ private:
     QList<float> fdata_sensor[NUM_CHANEL];
     uint32_t num_sensor_val;
     QStringList sensor_list;
-    QQueue<QPointF> data[9];
+    QList<QPointF> data[9];
     QQueue<QPointF> sensor0;
     QQueue<QByteArray> read_buff;
+    QByteArray     s1_buff;
     QList<QPointF> draw_points;
     // Line Series
     QLineSeries *heart_beat_series;
