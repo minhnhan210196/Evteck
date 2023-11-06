@@ -13,13 +13,13 @@
 #include "QJsonObject"
 #include "QJsonArray"
 
-#define MAX_DISPLAY_CHART_POINTS        10000
+#define MAX_DISPLAY_CHART_POINTS        1000
 #define NUM_DIV_POINTS                  1
 #define SET_DISPLAY_POINTS              MAX_DISPLAY_CHART_POINTS/NUM_DIV_POINTS
 #define TIME_UPDATE_CHART_mS            1
 #define SAMPLE_TIME_mS                  0.05
 QTimer *timer0;
-
+QTcpSocket *p_network = NULL;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -87,17 +87,17 @@ MainWindow::MainWindow(QWidget *parent)
     this->creat_chart();
     this->ui->setting_display->setVisible(false);
     this->is_setting_display = false;
-    this->p_network = new QTcpSocket(this);
+    p_network = new QTcpSocket();
 
     timer0 = new QTimer(this);
 
     connect(timer0,SIGNAL(timeout()),this,SLOT(update_senor_slot()));
     timer0->start(TIME_UPDATE_CHART_mS);
 
-    connect(this->p_network, SIGNAL(connected()),this, SLOT(connected()));
-    connect(this->p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
-    connect(this->p_network, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
-    connect(this->p_network, SIGNAL(readyRead()),this, SLOT(readyRead()));
+    connect(p_network, SIGNAL(connected()),this, SLOT(connected()));
+    connect(p_network, SIGNAL(disconnected()),this, SLOT(disconnected()));
+    connect(p_network, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
+    connect(p_network, SIGNAL(readyRead()),this, SLOT(readyRead()));
 
 }
 
@@ -281,53 +281,75 @@ void MainWindow::readyRead()
     //qDebug() << "reading...";
     //QByteArray data_ready = this->p_network->readAll();
 //    this->read_buff.append(this->p_network->readAll());
-    QByteArray data_ready = this->p_network->readLine();
-
-    this->read_buff.enqueue(data_ready);
+    QByteArray data_ready = p_network->readLine();
+    if(data_ready.back() == '\n' && data_ready.front() == ':'){
+        qDebug() << "data ready";
+        static float x = 0;
+        QByteArrayList values = data_ready.split(',');
+        values.pop_front();
+        values.pop_back();
+        for(uint32_t i = 0;i<values.count();i++){
+            float y = values.at(i).toFloat();
+            x++;
+            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+                this->draw_points.pop_front();
+                this->draw_points.append(QPointF(x,y));
+            }else{
+                this->draw_points.append(QPointF(x,y));
+            }
+        }
+    }
+//    this->read_buff.enqueue(data_ready);
 
     // read the data from the socket
-    //qDebug() << data_ready;
+
 
 }
 
 void MainWindow::update_senor_slot()
 {
-    static float x = 0;
-    this->fps+= TIME_UPDATE_CHART_mS;
-    if(this->read_buff.count()>0){
-        this->s1_buff.clear();
-        this->s1_buff = this->read_buff.dequeue();
-        uint8_t header = this->s1_buff.at(0);
-        if(header == ':'){
-            s1_buff.remove(0,1);
-            QByteArrayList values = this->s1_buff.split(',');
-            for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
-                float y = values.at(i).toFloat();
-                this->draw_points.append(QPointF(x,y));
-                if(this->draw_points.count() >= this->evteck_chart->get_max_points()){
-                    this->evteck_chart->replace_series(this->draw_points);
-                    if(this->fps > 0 ){
-                        double sample_per_sec = ((double)1000/SAMPLE_TIME_mS);
+//    static float x = 0;
+//    this->fps+= TIME_UPDATE_CHART_mS;
+//    if(this->read_buff.count()>0){
+//        this->s1_buff.clear();
+//        this->s1_buff = this->read_buff.dequeue();
+//        uint8_t header = this->s1_buff.at(0);
+//        if(header == ':'){
+//            s1_buff.remove(0,1);
+//            QByteArrayList values = this->s1_buff.split(',');
+//            this->draw_points.clear();
+//            for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
+//                float y = values.at(i).toFloat();
+//                this->draw_points.append(QPointF(x,y));
+//                if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+//                    this->draw_points.pop_back();
+//                    this->evteck_chart->replace_series(this->draw_points);
+//                    if(this->fps > 0 ){
+//                        double sample_per_sec = ((double)1000/SAMPLE_TIME_mS);
 
-                        this->ui->sample_value->setText(QString::number(sample_per_sec));
+//                        this->ui->sample_value->setText(QString::number(sample_per_sec));
 
-                        this->fps = 0;
-                    }
-                    this->draw_points.clear();
-                }
-                x+= (NUM_DIV_POINTS*SAMPLE_TIME_mS);
-            }
-        }
-    }
+//                        this->fps = 0;
+//                    }
+//                    this->draw_points.clear();
+//                }
+//                x+= (NUM_DIV_POINTS*SAMPLE_TIME_mS);
+//            }
+//        }
+//    }
 //    if(this->data[0].count() > this->evteck_chart->get_max_points()){
 //        this->evteck_chart->replace_series(this->data[0]);
 //        this->data[0].clear();
 //    }
 
 
-    this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
-    this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
-
+//    this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
+//    this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
+    if(this->draw_points.count() > 0){
+        this->evteck_chart->replace_series(this->draw_points);
+        this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
+        this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
+    }
 }
 
 void MainWindow::gen_data_sensor()
@@ -352,12 +374,11 @@ void MainWindow::on_stop_draw_char_clicked()
 
 void MainWindow::on_clear_button_clicked()
 {
-    evteck_chart->removeAllSeries();
-    this->sensor_series[0] = new QLineSeries();
-    evteck_chart->setTitle("Evteck Chart");
-    evteck_chart->setAnimationOptions(QChart::SeriesAnimations);
-    evteck_chart->createDefaultAxes();
-    this->evteck_chart->update();
+    this->draw_points.clear();
+    for(uint32_t i = 0;i<this->evteck_chart->get_max_points();i++){
+        this->draw_points.push_back(QPointF(i,0));
+    }
+    this->evteck_chart->replace_series(this->draw_points);
 }
 
 
@@ -495,20 +516,26 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     this->ui->scroll_value->setText(QString::number(value));
     this->evteck_chart->set_max_point(value/NUM_DIV_POINTS);
+    if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+        uint64_t num = this->draw_points.count() - this->evteck_chart->get_max_points();
+        for(uint64_t i = 0;i<num;i++){
+            this->draw_points.pop_front();
+        }
+    }
 }
 
 
 void MainWindow::on_connect_button_clicked()
 {
-    if(!this->p_network->isOpen()){
-        this->p_network->connectToHost(ui->ip_host->text(),ui->port_host->text().toInt());
-        if(!this->p_network->waitForConnected(5000))
+    if(!p_network->isOpen()){
+        p_network->connectToHost(ui->ip_host->text(),ui->port_host->text().toInt());
+        if(!p_network->waitForConnected(5000))
         {
-            qDebug() << "Error: " << this->p_network->errorString();
+            qDebug() << "Error: " << p_network->errorString();
         }
     }
     else{
-        this->p_network->close();
+        p_network->close();
     }
 }
 

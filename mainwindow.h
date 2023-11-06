@@ -132,6 +132,5 @@ private:
     QTimer *gen_data;
     QTimer *fps_timer;
     uint32_t fps;
-    QTcpSocket *p_network;
 };
 #endif // MAINWINDOW_H
