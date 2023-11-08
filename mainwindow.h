@@ -89,6 +89,8 @@ private slots:
 
     void on_back_bt_clicked();
 
+    void on_flash_fw_clicked();
+
 private:
     Setting setting_ui;
     void creat_chart();

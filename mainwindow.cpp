@@ -12,6 +12,7 @@
 #include "QJsonDocument"
 #include "QJsonObject"
 #include "QJsonArray"
+#include "setting.h"
 
 #define MAX_DISPLAY_CHART_POINTS        1000
 #define NUM_DIV_POINTS                  1
@@ -594,5 +595,13 @@ void MainWindow::on_back_bt_clicked()
         this->ui->setting_display->setVisible(false);
         this->is_setting_display = false;
     }
+}
+
+
+void MainWindow::on_flash_fw_clicked()
+{
+    Setting *p_setting = new Setting();
+    p_setting->setWindowTitle("Flash Firmware");
+    p_setting->show();
 }
 
