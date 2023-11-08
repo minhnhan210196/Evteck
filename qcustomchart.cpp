@@ -85,8 +85,11 @@ void QCustomChart::replace_series(const QList<QPointF> &points)
     }
     this->min_x = *std::min_element(_x.begin(),_x.end());
     this->max_x = *std::max_element(_x.begin(),_x.end());
-    this->min_y = *std::min_element(_y.begin(),_y.end());
-    this->max_y = *std::max_element(_y.begin(),_y.end());
+
+    float _min_y = *std::min_element(_y.begin(),_y.end());
+    float _max_y = *std::max_element(_y.begin(),_y.end());
+    if(_min_y < this->min_y) this->min_y = _min_y;
+    if(_max_y > this->max_y) this->max_y = _max_y;
     this->axisX->setRange(this->min_x,this->max_x);
     this->axisY->setRange(this->min_y-1,this->max_y+1);
     if(filter_enable){

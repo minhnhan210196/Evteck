@@ -1106,6 +1106,22 @@ QPushButton:hover {background-color: #3e8e41}</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
               <item>
+               <widget class="QLabel" name="fsp_label">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>FSP: 0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QGridLayout" name="wave_form_view"/>
               </item>
              </layout>

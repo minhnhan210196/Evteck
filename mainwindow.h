@@ -18,6 +18,7 @@
 #include "QTime"
 #include <QQueue>
 #include <qcustomchart.h>
+#include <QElapsedTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -131,6 +132,7 @@ private:
     QTimer *update_sensor_value;
     QTimer *gen_data;
     QTimer *fps_timer;
+    QElapsedTimer m_fpsTimer;
     uint32_t fps;
 };
 #endif // MAINWINDOW_H

@@ -345,7 +345,19 @@ void MainWindow::update_senor_slot()
 
 //    this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
 //    this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
-    if(this->draw_points.count() > 0){
+    if(this->draw_points.count() > this->evteck_chart->get_max_points() / 4){
+        static QString labelText = QStringLiteral("FPS: %1");
+        static int frameCount = 0;
+        frameCount++;
+        int elapsed = m_fpsTimer.elapsed();
+        if (elapsed >= 1000) {
+            elapsed = m_fpsTimer.restart();
+            qreal fps = qreal(0.1 * int(10000.0 * (qreal(frameCount) / qreal(elapsed))));
+            ui->fsp_label->setText(labelText.arg(QString::number(fps, 'f', 1)));
+            ui->fsp_label->adjustSize();
+            frameCount = 0;
+        }
+
         this->evteck_chart->replace_series(this->draw_points);
         this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
         this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
