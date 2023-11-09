@@ -119,7 +119,7 @@ private:
     QStringList sensor_list;
     QList<QPointF> data[9];
     QQueue<QPointF> sensor0;
-    QQueue<QByteArray> read_buff;
+    QByteArray read_buff;
     QByteArray     s1_buff;
     QList<QPointF> draw_points;
     // Line Series
@@ -136,5 +136,6 @@ private:
     QTimer *fps_timer;
     QElapsedTimer m_fpsTimer;
     uint32_t fps;
+
 };
 #endif // MAINWINDOW_H

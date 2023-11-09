@@ -191,6 +191,8 @@ void MainWindow::creat_chart()
     /*End creat pwv chart*/
     /*Creat evteck chart*/
     this->evteck_chart = new QCustomChart();
+    this->evteck_chart->enable_series(0,true);
+    this->evteck_chart->set_series_name(0,"s0");
     evteck_chart->setTitle("Evteck Chart");
 
     if(ui->v_to_h_checkbox->isChecked()){
@@ -278,75 +280,31 @@ typedef union{
 
 void MainWindow::readyRead()
 {
-
-    //qDebug() << "reading...";
-    //QByteArray data_ready = this->p_network->readAll();
-//    this->read_buff.append(this->p_network->readAll());
     QByteArray data_ready = p_network->readLine();
     if(data_ready.back() == '\n' && data_ready.front() == ':'){
-        qDebug() << "data ready";
-        static float x = 0;
-        QByteArrayList values = data_ready.split(',');
-        values.pop_front();
-        values.pop_back();
-        for(uint32_t i = 0;i<values.count();i++){
-            float y = values.at(i).toFloat();
-            x++;
-            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
-                this->draw_points.pop_front();
-                this->draw_points.append(QPointF(x,y));
-            }else{
-                this->draw_points.append(QPointF(x,y));
+        data_ready.remove(0,1);
+        data_ready.remove(data_ready.length()-2,2);
+        QJsonDocument json = QJsonDocument::fromJson(data_ready);
+        if(!json.isNull()){
+            static float x = 0;
+            QJsonArray ch1 = json["CH1"].toArray();
+            for(uint16_t i = 0;i<ch1.count();i++){
+                            float y = ch1.at(i).toDouble();
+                            x++;
+                            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+                                this->draw_points.pop_front();
+                                this->draw_points.append(QPointF(x,y));
+                            }else{
+                                this->draw_points.append(QPointF(x,y));
+                            }
             }
         }
     }
-//    this->read_buff.enqueue(data_ready);
-
-    // read the data from the socket
-
-
 }
 
 void MainWindow::update_senor_slot()
 {
-//    static float x = 0;
-//    this->fps+= TIME_UPDATE_CHART_mS;
-//    if(this->read_buff.count()>0){
-//        this->s1_buff.clear();
-//        this->s1_buff = this->read_buff.dequeue();
-//        uint8_t header = this->s1_buff.at(0);
-//        if(header == ':'){
-//            s1_buff.remove(0,1);
-//            QByteArrayList values = this->s1_buff.split(',');
-//            this->draw_points.clear();
-//            for(uint16_t i = 1;i<values.count();i+=NUM_DIV_POINTS){
-//                float y = values.at(i).toFloat();
-//                this->draw_points.append(QPointF(x,y));
-//                if(this->draw_points.count() > this->evteck_chart->get_max_points()){
-//                    this->draw_points.pop_back();
-//                    this->evteck_chart->replace_series(this->draw_points);
-//                    if(this->fps > 0 ){
-//                        double sample_per_sec = ((double)1000/SAMPLE_TIME_mS);
-
-//                        this->ui->sample_value->setText(QString::number(sample_per_sec));
-
-//                        this->fps = 0;
-//                    }
-//                    this->draw_points.clear();
-//                }
-//                x+= (NUM_DIV_POINTS*SAMPLE_TIME_mS);
-//            }
-//        }
-//    }
-//    if(this->data[0].count() > this->evteck_chart->get_max_points()){
-//        this->evteck_chart->replace_series(this->data[0]);
-//        this->data[0].clear();
-//    }
-
-
-//    this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
-//    this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
-    if(this->draw_points.count() > this->evteck_chart->get_max_points() / 4){
+    if(this->draw_points.count() > 0){
         static QString labelText = QStringLiteral("FPS: %1");
         static int frameCount = 0;
         frameCount++;
@@ -359,7 +317,7 @@ void MainWindow::update_senor_slot()
             frameCount = 0;
         }
 
-        this->evteck_chart->replace_series(this->draw_points);
+        this->evteck_chart->replace_series(this->draw_points,0);
         this->ui->max_value->setText(QString::number(this->evteck_chart->get_max_y()));
         this->ui->min_value->setText(QString::number(this->evteck_chart->get_min_y()));
     }
@@ -391,7 +349,7 @@ void MainWindow::on_clear_button_clicked()
     for(uint32_t i = 0;i<this->evteck_chart->get_max_points();i++){
         this->draw_points.push_back(QPointF(i,0));
     }
-    this->evteck_chart->replace_series(this->draw_points);
+    this->evteck_chart->replace_series(this->draw_points,0);
 }
 
 

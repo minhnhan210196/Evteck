@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <hl_simplekalmanfilter.h>
 
+#define MAX_SERIES 1
 
 class QCustomChart : public QChart
 {
@@ -19,7 +20,7 @@ public:
     void set_max_point(uint32_t max);
     void set_axisX_title(QString title);
     void set_axisY_title(QString title);
-    void replace_series(const QList<QPointF> &points);
+    void replace_series(const QList<QPointF> &points,uint8_t series_index);
     void update_series();
     uint32_t get_max_points();
     void set_filter_en(bool en);
@@ -28,15 +29,18 @@ public:
     float get_min_x();
     float get_max_y();
     float get_min_y();
+    void enable_series(uint8_t series_index,bool enable);
+    void set_series_name(uint8_t series_index,QString name);
 signals:
 public slots:
 private:
-    QLineSeries *series;
-    QLineSeries *series_filter;
+    bool series_enable[MAX_SERIES];
+    QLineSeries *series[MAX_SERIES];
+    QLineSeries *series_filter[MAX_SERIES];
     QValueAxis *axisX;
     QValueAxis *axisY;
     HL_SimpleKalmanFilter *filter;
-    float max_x,max_y,min_x,min_y;
+    float max_x[MAX_SERIES],max_y[MAX_SERIES],min_x[MAX_SERIES],min_y[MAX_SERIES];
     bool filter_enable,data_raw_enable;
     uint32_t num_display_point;
 
