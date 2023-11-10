@@ -15,6 +15,7 @@ public:
     explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
     void set_percent(uint16_t percent);
+    void set_text(QString text);
 private:
     Ui::Dialog *ui;
 };

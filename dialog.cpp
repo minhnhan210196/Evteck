@@ -17,3 +17,8 @@ void Dialog::set_percent(uint16_t percent)
 {
     ui->progressBar->setValue((int)percent);
 }
+
+void Dialog::set_text(QString text)
+{
+    ui->label->setText(text);
+}

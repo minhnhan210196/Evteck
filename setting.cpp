@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QDebug>
+#include <dialog.h>
 
 Setting::Setting(QWidget *parent) :
     QWidget(parent),
@@ -45,6 +46,11 @@ void Setting::readyRead()
 
 }
 
+void Setting::run()
+{
+
+}
+
 void Setting::on_connect_bt_clicked()
 {
     if(!p_network->isOpen()){
@@ -77,10 +83,13 @@ void Setting::on_file_bt_clicked()
 
 void Setting::on_flash_bt_clicked()
 {
-    this->ui->progressBar->setVisible(true);
-    for(uint16_t i = 1;i<101;i++){
-        ui->progressBar->setValue(i);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+            Dialog *dialog = new Dialog();
+            dialog->set_text("Error");
+            return;
     }
-    this->file.close();
+    QTextStream stream(&this->file);
+    connect(this->timer,SIGNAL(timeout),this,SLOT(run));
+    this->timer.start(1);
 }
 

@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QFile>
 #include <QTextStream>
+#include <QTimer>
 
 namespace Ui {
 class Setting;
@@ -22,6 +23,7 @@ public slots:
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
+    void run();
 private slots:
     void on_connect_bt_clicked();
 
@@ -33,6 +35,7 @@ private:
     Ui::Setting *ui;
     QTcpSocket *p_network = NULL;
     QFile file;
+    QTimer timer;
 };
 
 #endif // SETTING_H
