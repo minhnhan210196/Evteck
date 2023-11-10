@@ -282,23 +282,38 @@ void MainWindow::readyRead()
 {
     QByteArray data_ready = p_network->readLine();
     if(data_ready.back() == '\n' && data_ready.front() == ':'){
-        data_ready.remove(0,1);
-        data_ready.remove(data_ready.length()-2,2);
-        QJsonDocument json = QJsonDocument::fromJson(data_ready);
-        if(!json.isNull()){
-            static float x = 0;
-            QJsonArray ch1 = json["CH1"].toArray();
-            for(uint16_t i = 0;i<ch1.count();i++){
-                            float y = ch1.at(i).toDouble();
-                            x++;
-                            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
-                                this->draw_points.pop_front();
-                                this->draw_points.append(QPointF(x,y));
-                            }else{
-                                this->draw_points.append(QPointF(x,y));
-                            }
+        data_ready.remove(0,2);
+        data_ready.remove(data_ready.length()-3,3);
+        QList<QByteArray> list = data_ready.split('|');
+        QList<QByteArray> ch1 = list.at(0).split(',');
+        static float x = 0;
+        for(uint16_t i = 0;i<ch1.count();i++){
+            float y = ch1.at(i).toFloat();
+            x++;
+            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+                this->draw_points.pop_front();
+                this->draw_points.append(QPointF(x,y));
+            }else{
+                this->draw_points.append(QPointF(x,y));
             }
         }
+
+
+//        QJsonDocument json = QJsonDocument::fromJson(data_ready);
+//        if(!json.isNull()){
+//            static float x = 0;
+//            QJsonArray ch1 = json["CH1"].toArray();
+//            for(uint16_t i = 0;i<ch1.count();i++){
+//                            float y = ch1.at(i).toDouble();
+//                            x++;
+//                            if(this->draw_points.count() > this->evteck_chart->get_max_points()){
+//                                this->draw_points.pop_front();
+//                                this->draw_points.append(QPointF(x,y));
+//                            }else{
+//                                this->draw_points.append(QPointF(x,y));
+//                            }
+//            }
+//        }
     }
 }
 
